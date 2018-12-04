@@ -75,7 +75,9 @@ fi
 
 if $INITIAL_RUN ;
 then
+    echo "testing"
   ${WUM} init -u ${WUM_USER} -p ${WUM_PASSWORD} -v &>> wum.log
+  echo "testing finished"
 
   # Add WUM product
   echo "Adding the product - ${PRODUCT}-${PRODUCT_VERSION}..." &>> wum.log

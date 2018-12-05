@@ -64,6 +64,7 @@ FAILED_UNZIP=15
 FAILED_RM_UNZIP=16
 FAILED_ARTIFACT_APPLY=17
 
+echo $WORKING_DIRECTORY
 if [ -d "${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/" ];
 then
    echo "Applying artifact(s) to the existing deployment pattern >> $DEPLOYMENT_PATTERN..."

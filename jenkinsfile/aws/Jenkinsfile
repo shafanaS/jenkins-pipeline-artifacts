@@ -70,8 +70,8 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.BUILD_PACK) {
             log.info "Generate Pack with configs"
-            applyConfig([product       : "params.PRODUCT",
-                         version       : "params.VERSION",
+            applyConfig([product       : "$params.PRODUCT",
+                         version       : "$params.VERSION",
                          wum_creds     : "${WUM_CREDS}",
                          puppetManifest: "${PUPPET_CONF}",
                          artifactsLoc  : "${ARTIFACT_LOC}",

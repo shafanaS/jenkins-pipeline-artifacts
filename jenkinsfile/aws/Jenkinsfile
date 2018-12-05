@@ -34,11 +34,11 @@ node(NODE_MASTER) {
     //Directories
     def DEPLOYMENT_DIR = "deployment"
     def CONF_HOME_DIR = "configs"
-    def ARTIFACTS_DIR = "artifacts"
+    def ARTIFACTS_DIR = "cicd-test-artifacts"
     def PIPELINE_RESOURCES_DIR = "resources"
     def IMAGE_RESOURCES = "image-resources"
     def PUPPET_CONF_DIR = "${WORKSPACE}/${CONF_HOME_DIR}"
-    def ARTIFACT_LOC = "${WORKSPACE}/${ARTIFACTS_DIR}/artifacts/repository/deployment/server/carbonapps"
+    def ARTIFACT_LOC = "${WORKSPACE}/${ARTIFACTS_DIR}/artifacts"
     def IMAGE_RESOURCES_LOC = "${WORKSPACE}/${IMAGE_RESOURCES}/"
     def RESOURCES = Constants.Paths.RESOURCES
     def PACKER_RESOURCES = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer-resources"

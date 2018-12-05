@@ -38,7 +38,7 @@ node(NODE_MASTER) {
     def PIPELINE_RESOURCES_DIR = "resources"
     def IMAGE_RESOURCES = "image-resources"
     def PUPPET_CONF_DIR = "${WORKSPACE}/${CONF_HOME_DIR}"
-    def ARTIFACT_LOC = "${WORKSPACE}/${ARTIFACTS_DIR}/samples/artifacts/carbon-home"
+    def ARTIFACT_LOC = "${WORKSPACE}/${ARTIFACTS_DIR}/repository/deployment/server/carbonapps"
     def IMAGE_RESOURCES_LOC = "${WORKSPACE}/${IMAGE_RESOURCES}/"
     def RESOURCES = Constants.Paths.RESOURCES
     def PACKER_RESOURCES = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer-resources"

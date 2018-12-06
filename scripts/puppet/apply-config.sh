@@ -76,9 +76,7 @@ fi
 
 if $INITIAL_RUN ;
 then
-    echo "testing"
   ${WUM} init -u ${WUM_USER} -p ${WUM_PASSWORD} -v &>> wum.log
-  echo "testing finished"
 
   # Add WUM product
   echo "Adding the product - ${PRODUCT}-${PRODUCT_VERSION}..." &>> wum.log
@@ -87,7 +85,6 @@ then
     echo "${PRODUCT}-${PRODUCT_VERSION} successfully added..." &>> wum.log
   else
     if [ $? -ne 1 ] ; then
-      echo "failed to add wum product"
       exit ${FAILED_WUM_ADD}
     fi
   fi
@@ -99,7 +96,6 @@ then
     echo "${PRODUCT}-${PRODUCT_VERSION} successfully updated..." &>> wum.log
   else
     if [ $? -eq 1 ] ; then
-    echo "failed to get updates for product"
       exit ${FAILED_WUM_UPDATE}
     fi
   fi
@@ -127,7 +123,6 @@ fi
 
 echo "Applying Puppet modules..."
 echo ${MODULE_PATH}
-echo ${DEPLOYMENT_PATTERN}
 puppet apply -e "include ${DEPLOYMENT_PATTERN}" --modulepath=${MODULE_PATH}
 if [ $? -ne 0 ] ; then
   echo "Failed to apply Puppet for ${PRODUCT}-${PRODUCT_VERSION}..."

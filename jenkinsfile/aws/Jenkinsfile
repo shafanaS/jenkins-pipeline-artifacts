@@ -42,7 +42,7 @@ node(NODE_MASTER) {
     def IMAGE_RESOURCES_LOC = "${WORKSPACE}/${IMAGE_RESOURCES}/"
     def RESOURCES = Constants.Paths.RESOURCES
     def PACKER_RESOURCES = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer-resources"
-    def WUM_HOME = "/var/lib/jenkins/.wum3"
+    def WUM_HOME = "/var/lib/jenkins/.wum3/products"
     //Config Files
     def ENV = '/home/jenkins/jenkins_env'
     def PUPPET_CONF = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/puppet/apply-config.sh"

@@ -91,7 +91,7 @@ node(NODE_MASTER) {
                                        image         : "${BASE_IMAGE}",
                                        packerManifest: "${PACKER_MANIFEST}",
                                        awsCredsFile  : "${AWS_CREDS_LOC}",
-                                       imageResources: "${IMAGE_RESOURCES_LOC}*"])
+                                       imageResources: "${IMAGE_RESOURCES_LOC}"])
         }
 
         stage(Constants.Stages.DEPLOY_STAGING) {

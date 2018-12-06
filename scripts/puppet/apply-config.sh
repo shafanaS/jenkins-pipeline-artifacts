@@ -87,6 +87,7 @@ then
     echo "${PRODUCT}-${PRODUCT_VERSION} successfully added..." &>> wum.log
   else
     if [ $? -ne 1 ] ; then
+      echo "failed to add wum product"
       exit ${FAILED_WUM_ADD}
     fi
   fi
@@ -98,6 +99,7 @@ then
     echo "${PRODUCT}-${PRODUCT_VERSION} successfully updated..." &>> wum.log
   else
     if [ $? -eq 1 ] ; then
+    echo "failed to get updates for product"
       exit ${FAILED_WUM_UPDATE}
     fi
   fi

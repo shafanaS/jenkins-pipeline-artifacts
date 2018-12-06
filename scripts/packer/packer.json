@@ -43,7 +43,7 @@
     {
       "type": "file",
       "source": "/var/lib/jenkins/workspace/EI-6.4.0/image-resources/params.pp",
-      "destination": "/tmp"
+      "destination": "/tmp/"
     },
     {
       "type": "file",

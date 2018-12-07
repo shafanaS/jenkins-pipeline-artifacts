@@ -41,11 +41,11 @@
     }
   ],
   "provisioners": [
-//    {
-//      "type": "file",
-//      "source": "/var/lib/jenkins/workspace/EI-6.4.0/image-resources/jdk-8u144-linux-x64.tar.gz",
-//      "destination": "/tmp/"
-//    },
+    {
+      "type": "file",
+      "source": "/var/lib/jenkins/workspace/EI-6.4.0/image-resources/jdk-8u144-linux-x64.tar.gz",
+      "destination": "/tmp/"
+    },
     {
       "type": "file",
       "source": "{{user `image_resources`}}",

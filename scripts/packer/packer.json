@@ -15,6 +15,7 @@
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
+      "region":"{{`region`}}",
       "source_ami": "{{user `base_ami`}}",
       "instance_type": "t2.medium",
       "ssh_username": "ubuntu",
@@ -40,11 +41,11 @@
     }
   ],
   "provisioners": [
-    {
-      "type": "file",
-      "source": "/var/lib/jenkins/workspace/EI-6.4.0/image-resources/jdk-8u144-linux-x64.tar.gz",
-      "destination": "/tmp/"
-    },
+//    {
+//      "type": "file",
+//      "source": "/var/lib/jenkins/workspace/EI-6.4.0/image-resources/jdk-8u144-linux-x64.tar.gz",
+//      "destination": "/tmp/"
+//    },
     {
       "type": "file",
       "source": "{{user `image_resources`}}",

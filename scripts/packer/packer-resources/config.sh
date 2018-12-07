@@ -9,9 +9,9 @@ product=$1
 
 ################################################ EI 6.4.0 ####################################################
 echo "Copying $product ..."
-cp /tmp/pack/$product /home/ubuntu/
-cp /tmp/pack/jdk-8u144-linux-x64.tar.gz /opt
-cp /tmp/pack/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
+cp /tmp/$product /home/ubuntu/
+cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
+cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
 cp /tmp/util/ei/provision_db_ei.sh /usr/local/bin/
 mkdir /home/ubuntu/ei
 cp /tmp/util/ei/ei.sql /home/ubuntu/ei/ei.sql

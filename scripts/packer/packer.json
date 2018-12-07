@@ -15,7 +15,7 @@
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region":"{{`region`}}",
+      "region":"us-east-1",
       "source_ami": "{{user `base_ami`}}",
       "instance_type": "t2.medium",
       "ssh_username": "ubuntu",

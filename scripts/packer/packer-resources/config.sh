@@ -7,6 +7,7 @@ export LANG=en_US.UTF-8
 export DEBIAN_FRONTEND=noninteractive
 product=$1
 
+apt-get install -y mysql-client
 ################################################ EI 6.4.0 ####################################################
 echo "Copying $product ..."
 cp /tmp/$product /home/ubuntu/

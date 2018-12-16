@@ -53,6 +53,8 @@ node(NODE_MASTER) {
     def AWS_CREDS_LOC = '/home/ubuntu/.aws/credentials'
     //repos
     def GIT_REPO_RESOURCES = 'https://github.com/shafanaS/jenkins-pipeline-artifacts'
+    //mvn tests
+    def REMOVE_LOGS = 'org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
 
     try {
         stage(Constants.Stages.SETUP_ENV) {
@@ -113,9 +115,9 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.RUNNING_TESTS) {
             log.info "Running Test"
-            def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT}"
+            def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D${REMOVE_LOGS}"
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
-                executeTest "${TEST_SCRIPT}"
+                executeTests "${TEST_SCRIPT}"
             }
 
         }
@@ -139,9 +141,9 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.RUNNING_TESTS) {
             log.info " Running Test "
-            def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT}"
+            def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D${REMOVE_LOGS}"
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
-                executeTest "${TEST_SCRIPT}"
+                executeTests "${TEST_SCRIPT}"
             }
 
         }

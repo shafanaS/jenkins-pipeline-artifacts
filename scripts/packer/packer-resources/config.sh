@@ -7,8 +7,13 @@ export LANG=en_US.UTF-8
 export DEBIAN_FRONTEND=noninteractive
 product=$1
 
-apt-get install -y mysql-client
 ################################################ EI 6.4.0 ####################################################
+echo "Installing mysql-client"
+sudo apt-get install -y mysql-client
+echo "Installing pip"
+sudo apt install -y python-pip
+echo "Installing maven"
+sudo apt install maven
 echo "Copying $product ..."
 cp /tmp/$product /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt

@@ -8,12 +8,15 @@ export DEBIAN_FRONTEND=noninteractive
 product=$1
 
 ################################################ EI 6.4.0 ####################################################
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock
 echo "Installing mysql-client"
-sudo apt-get install -y mysql-client /dev/null
+sudo apt-get install -y mysql-client
 echo "Installing pip"
-sudo apt install -y python-pip /dev/null
+sudo apt install -y python-pip
 echo "Installing maven"
-sudo apt install -y maven /dev/null
+sudo apt install -y maven
 echo "Copying $product ..."
 cp /tmp/$product /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt

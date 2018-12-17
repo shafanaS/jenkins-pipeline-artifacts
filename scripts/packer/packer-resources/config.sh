@@ -12,11 +12,11 @@ sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
 echo "Installing mysql-client"
-sudo apt-get install -y mysql-client
+sudo apt-get install -q -y mysql-client
 echo "Installing pip"
-sudo apt install -y python-pip
+sudo apt install -q -y python-pip
 echo "Installing maven"
-sudo apt install -y maven
+sudo apt install -q -y maven
 echo "Copying $product ..."
 cp /tmp/$product /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt

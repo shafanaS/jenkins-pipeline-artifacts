@@ -9,11 +9,11 @@ product=$1
 
 ################################################ EI 6.4.0 ####################################################
 echo "Installing mysql-client"
-sudo apt-get install -y mysql-client
+sudo apt-get install -y mysql-client /dev/null
 echo "Installing pip"
-sudo apt install -y python-pip
+sudo apt install -y python-pip /dev/null
 echo "Installing maven"
-sudo apt install maven
+sudo apt install -y maven /dev/null
 echo "Copying $product ..."
 cp /tmp/$product /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt

@@ -117,10 +117,8 @@ node(NODE_MASTER) {
             log.info "Running Test"
             log.info "${TEST_ENDPOINT}"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D${REMOVE_LOGS}"
-            withMaven(maven: 'Maven') {
-                dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
-                    executeTests "${TEST_SCRIPT}"
-                }
+            dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
+                executeTests "${TEST_SCRIPT}"
             }
         }
 
@@ -143,6 +141,7 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.RUNNING_TESTS) {
             log.info " Running Test "
+            log.info "${TEST_ENDPOINT}"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D${REMOVE_LOGS}"
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
                 executeTests "${TEST_SCRIPT}"

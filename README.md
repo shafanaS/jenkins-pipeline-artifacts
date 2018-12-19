@@ -46,28 +46,28 @@ Steps to Run:
 5.  Make a push to the git hub repository
 
 The following parameters are required to be given when uploading the file.
-    * AWSAccessKeyId - AWS Access Key ID
-    * AWSAccessKeySecret - AWS Secret Key
-    * KeyPairName - This key pair name will be used to as the private key used to log in to instances through SSH.
-    * CertificateName - A valid SSL certificate used for HTTPS
-    * WSO2InstanceType - The aws inatnce type that you want to create. This must be a valid EC2 instance type. This can be any of following type.
-        - t2.medium
-        - t2.large
-        - t2.2xlarge
-        - m3.large
-        - m3.xlarge
-        - m3.2xlarge
-        - m4.large
-        - m4.xlarge (recommended)
-    * WUMPassword - Password for WUM
-    * WUMUsername - Username for WUM
-    * DBUsername - Database Username
-    * DBPassword - Database Password
-    * JDKVersion - Java Version
-    * GITREPOARTIFACTS - Git URL of the artifacts repository. The artifacts in this repository will be deployed from the Pipeline.
-    * GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git)
-    * GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git)
-    * Email - In case of any failures in the pipeline an email will be sent to this email.
+    *   AWSAccessKeyId - AWS Access Key ID
+    *   AWSAccessKeySecret - AWS Secret Key
+    *   KeyPairName - This key pair name will be used to as the private key used to log in to instances through SSH.
+    *   CertificateName - A valid SSL certificate used for HTTPS
+    *   WSO2InstanceType - The aws inatnce type that you want to create. This must be a valid EC2 instance type. This can be any of following type.
+        -   t2.medium
+        -   t2.large
+        -   t2.2xlarge
+        -   m3.large
+        -   m3.xlarge
+        -   m3.2xlarge
+        -   m4.large
+        -   m4.xlarge (recommended)
+    *   WUMPassword - Password for WUM
+    *   WUMUsername - Username for WUM
+    *   DBUsername - Database Username
+    *   DBPassword - Database Password
+    *   JDKVersion - Java Version
+    *   GITREPOARTIFACTS - Git URL of the artifacts repository. The artifacts in this repository will be deployed from the Pipeline.
+    *   GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git)
+    *   GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git)
+    *   Email - In case of any failures in the pipeline an email will be sent to this email.
 
 #### How to create a Github Webhook
 1.  Sign in to your GitHub account.

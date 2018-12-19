@@ -6,7 +6,7 @@
     "version": "",
     "name": "BASE",
     "product": null,
-    "base_ami": "ami-04e245635a03bf935",
+    "base_ami": "ami-0f749bc5d7a0d729a",
     "region": "us-east-1",
     "buildtime": "{{ isotime \"2006-01-02-1504\" }}"
   },

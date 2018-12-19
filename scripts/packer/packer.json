@@ -6,7 +6,7 @@
     "version": "",
     "name": "BASE",
     "product": null,
-    "base_ami": "ami-0f749bc5d7a0d729a",
+    "base_ami": "ami-0a210d0ff85478b6c",
     "region": "us-east-1",
     "buildtime": "{{ isotime \"2006-01-02-1504\" }}"
   },
@@ -15,7 +15,7 @@
       "type": "amazon-ebs",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
-      "region":"us-east-1",
+      "region":"us-east-2",
       "vpc_id": "vpc-08d0ba73",
       "associate_public_ip_address": true,
       "source_ami": "{{user `base_ami`}}",

@@ -42,8 +42,6 @@ Metadata:
       - Label:
           default: Other Parameters
         Parameters:
-          - ProductName
-          - ProductVersion
           - GITREPOARTIFACTS
           - GITREPOCF
           - GITREPOPUPPET
@@ -74,10 +72,6 @@ Metadata:
         default: CloudFormation Scripts (git)
       GITREPOPUPPET:
         default: Configuration Repository (git)
-      ProductName:
-        default: Product Name
-      ProductVersion:
-        default: Product Version
       JDKVersion:
         default: JDK Version
       Email:
@@ -109,15 +103,6 @@ Parameters:
       - m3.2xlarge
       - m4.large
     ConstraintDescription: Must be a valid EC2 instance type
-  ProductName:
-    Type: String
-    AllowedValues:
-      - wso2ei
-  ProductVersion:
-    Type: String
-    AllowedValues:
-      - 6.4.0
-      - 6.3.0
   WUMPassword:
     Type: String
     Default: ""
@@ -176,16 +161,6 @@ Resources:
     Properties:
       InternetGatewayId: !Ref WSO2EIPublicInternetGateway
       VpcId: !Ref TESTVPC
-
-  WSO2jenkinsEIPAssociation:
-    Type: 'AWS::EC2::EIPAssociation'
-    Properties:
-      AllocationId: !GetAtt WSO2JenkinsEIP.AllocationId
-      InstanceId: !Ref WSO2JenkinsInstance
-  WSO2JenkinsEIP:
-    Type: 'AWS::EC2::EIP'
-    Properties:
-      Domain: vpc
   WSO2JenkinsInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -203,6 +178,7 @@ Resources:
           Value: WSO2JenkinsInstance
       NetworkInterfaces:
         - DeleteOnTermination: 'true'
+          AssociatePublicIpAddress : 'true'
           Description: Primary network interface
           DeviceIndex: 0
           SubnetId: !Ref TestSubnet1
@@ -222,8 +198,6 @@ Resources:
           sed -i "s/VAL7/${DBUsername}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL8/${DBPassword}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL9/${JDKVersion}/g" /home/jenkins/jenkins_env
-          sed -i "s/VALX/${ProductName}/g" /home/jenkins/jenkins_env
-          sed -i "s/VALY/${ProductVersion}/g" /home/jenkins/jenkins_env
           sed -i "s/VALZ/${Email}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL1/${AWSAccessKeyId}/g" /home/ubuntu/.aws/credentials
           sed -i "s|VAL2|${AWSAccessKeySecret}|g" /home/ubuntu/.aws/credentials

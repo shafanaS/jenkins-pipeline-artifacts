@@ -46,9 +46,9 @@ Steps to Run:
 5.  Make a push to the git hub repository
 
 The following parameters are required to be given when uploading the file.
-    *   AWSAccessKeyId - AWS Access Key ID
-    *   AWSAccessKeySecret - AWS Secret Key
-    *   KeyPairName - This key pair name will be used to as the private key used to log in to instances through SSH.
+*   AWSAccessKeyId - AWS Access Key ID
+*   AWSAccessKeySecret - AWS Secret Key
+*   KeyPairName - This key pair name will be used to as the private key used to log in to instances through SSH.
     *   CertificateName - A valid SSL certificate used for HTTPS
     *   WSO2InstanceType - The aws inatnce type that you want to create. This must be a valid EC2 instance type. This can be any of following type.
         -   t2.medium

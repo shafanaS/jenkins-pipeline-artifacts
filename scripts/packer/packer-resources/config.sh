@@ -8,6 +8,10 @@ export DEBIAN_FRONTEND=noninteractive
 product=$1
 
 ################################################ EI 6.4.0 ####################################################
+sudo apt-get update
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock
 echo "Installing mysql-client"
 sudo apt-get install -q -y mysql-client
 echo "Installing pip"

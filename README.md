@@ -71,16 +71,16 @@ Steps to start:
 4. Once the EI instance is created, log in to the instance through a web browser using "<public DNS> (IPV4):8080".
 5. Go Global Jenkins Credentials, and update your AWS credentials (under aws_creds) and WUM credentials (under wum_creds) respectively.
 6. Configure GitHub webhook for the jenkins server. Follow the steps given below.
-    a. Sign in to your GitHub account.
-    b. Select the related repository you own.
-    c. Click "Settings" on the right panel.
-    d. Then click "Webhooks" on the left panel.
-    e. Click the "Add WebHook" button.
-    f. Paste the URL of the Jenkins server in the URL form field.
-    g. Select "application/json" as the content type.
-    h. Select "Just the push event".
-    i. Leave the "Active" check box selected.
-    j. Click "Add webhook" to save the webhook.
+    a.  Sign in to your GitHub account.
+    b.  Select the related repository you own.
+    c.  Click "Settings" on the right panel.
+    d.  Then click "Webhooks" on the left panel.
+    e.  Click the "Add WebHook" button.
+    f.  Paste the URL of the Jenkins server in the URL form field.
+    g.  Select "application/json" as the content type.
+    h.  Select "Just the push event".
+    i.  Leave the "Active" check box selected.
+    j.  Click "Add webhook" to save the webhook.
     When the webhook is created, the jenkins build will be triggered once a push is made to the repository. This will start the pipeline.
 5.  Make a push to the GitHub repository.
 

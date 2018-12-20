@@ -44,8 +44,14 @@ The jenkins.yaml file holds the CFN (template file) for the Jenkins server in re
 Steps to start:
 1.  Upload the jenkins.yaml file as the template.
 2.  Specify the required parameters mentioned below.
-    *   AWSAccessKeyId - AWS Access Key ID.
-    *   AWSAccessKeySecret - AWS Secret Key.
+    *   AWSAccessKeyId - Your AWS Access Key ID.
+    *   AWSAccessKeySecret - Your AWS Secret Key.
+    You can find your Access key and Secret key from your aws account from below steps.
+        -   Log in to your AWS Management Console.
+        -   Click on your user name at the top right of the page.
+        -   Click on the Security Credentials link from the drop-down menu.
+        -   In the Access Credentials section, you can find your Access Key ID.
+        -   Click on the Show link in the same row, you can find your Secret Access Key.
     *   KeyPairName - This key pair name will be used as the private key when a user logs in to instances through SSH.
     *   CertificateName - A valid SSL certificate used for HTTPS.
     *   WSO2InstanceType - The AWS instance type that you want to create. This must be any of the following valid EC2 instance types:
@@ -68,7 +74,7 @@ Steps to start:
     *   Email - In case of any failures in the pipeline, a message will be sent to this email.
 
 3. Create the stack.
-4. Once the stack is created, find the instance named "WSO2JenkinsInstance" in EC2 instances. Get the public DNS(IPv4) address of the instance. Now you can log into Jenkins through a web browser using "public DNS(IPv4):8080".
+4. Once the stack is created, in the stack outputs the jenkins URL will be available under "JenkinsManagementConsoleURL". Now you can log into Jenkins through a web browser using that URL.
 5. Go Global Jenkins Credentials, and update your AWS credentials (under aws_creds) and WUM credentials (under wum_creds) respectively.
 6. Configure GitHub webhook for the jenkins server. Follow the steps given below.
     - Sign in to your GitHub account.
@@ -102,6 +108,8 @@ Once the pipeline is started, the following steps will be executed:
 6. Deploy to production.
     - production stack is created and the test endpoint for the production environment is returned. Note that this endpoint is not app-specific. To be able to test app-specific endpoints in the next step, the test cases should already contain the app-specific URI.
 7. Run tests on production.
+
+This pipeline uses the Jenkins shared library. This repository contains the set of functions that is used in the pipeline. This repository is intended to keep the generic methods that is used by the pipeline. For more information on how to use this library check the repository at https://github.com/wso2-incubator/jenkins-shared-lib.
 
 ### How to Configure the Pipeline for another Region
 

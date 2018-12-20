@@ -103,4 +103,4 @@ Once the pipeline is started, the following steps will be executed:
 
 ### How to configure the pipeline from another region
 
-To configure the CICD pipeline for any region: Copy the AMI specified in the Jenkins.yaml file (under mappings) for the us-east-1 region to the AMI in the Jenkins.yaml file in the required region.
+To configure the CICD pipeline for any region: Copy the AMI specified for us-east-1 region (under mappings) in the Jenkins.yaml file to the region you require. Then specify the copied AMI along with the region in the Jenkins.yaml file under mappings.

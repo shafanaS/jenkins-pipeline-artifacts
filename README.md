@@ -8,28 +8,28 @@ The following diagram shows the folder structure in this repository:
 ```
 .
 ├── cfn
-│   └── jenkins.yaml
+│   └── jenkins.yaml
 ├── jenkinsfile
-│   ├── aws
-│   │   └── Jenkinsfile
-│   └── k8s
+│   ├── aws
+│   │   └── Jenkinsfile
+│   └── k8s
 ├── README.md
 └── scripts
     ├── packer
-    │   ├── packer.json
-    │   └── packer-resources
-    │       ├── conf
-    │       │   ├── limits.conf
-    │       │   ├── sources.list
-    │       │   └── sysctl.conf
-    │       ├── config.sh
-    │       └── util
-    │           ├── ei
-    │           │   ├── ei.sql
-    │           │   ├── mb.sql
-    │           │   ├── provision_db_ei.sh
-    │           │   └── provision_db_mb.sh
-    │           └── ei-init.sh
+    │   ├── packer.json
+    │   └── packer-resources
+    │       ├── conf
+    │       │   ├── limits.conf
+    │       │   ├── sources.list
+    │       │   └── sysctl.conf
+    │       ├── config.sh
+    │       └── util
+    │           ├── ei
+    │           │   ├── ei.sql
+    │           │   ├── mb.sql
+    │           │   ├── provision_db_ei.sh
+    │           │   └── provision_db_mb.sh
+    │           └── ei-init.sh
     └── puppet
         ├── apply-config.sh
         └── construct-puppet-module.sh
@@ -38,7 +38,7 @@ The following diagram shows the folder structure in this repository:
 * jenkinsfile: This directory contains the main pipeline scripts for each infrastructure.
 * scripts: This directory holds the utility scripts needed for Packer and Puppet.
 
-#### How to start the pipeline
+#### How to Start the Pipeline
 The jenkins.yaml file holds the CFN (template file) for the Jenkins server in region us-east-1.
 
 Steps to start:
@@ -71,20 +71,20 @@ Steps to start:
 4. Once the EI instance is created, log in to the instance through a web browser using "<public DNS> (IPV4):8080".
 5. Go Global Jenkins Credentials, and update your AWS credentials (under aws_creds) and WUM credentials (under wum_creds) respectively.
 6. Configure GitHub webhook for the jenkins server. Follow the steps given below.
-   a.   Sign in to your GitHub account.
-   b.   Select the related repository you own.
-   c.   Click "Settings" on the right panel.
-   d.   Then click "Webhooks" on the left panel.
-   e.   Click the "Add WebHook" button.
-   f.   Paste the URL of the Jenkins server in the URL form field.
-   g.   Select "application/json" as the content type.
-   h.   Select "Just the push event".
-   i.   Leave the "Active" check box selected.
-   j.   Click "Add webhook" to save the webhook.
-   When the webhook is created, the jenkins build will be triggered once a push is made to the repository. This will start the pipeline.
+ a.   Sign in to your GitHub account.
+ b.   Select the related repository you own.
+ c.   Click "Settings" on the right panel.
+ d.   Then click "Webhooks" on the left panel.
+ e.   Click the "Add WebHook" button.
+ f.   Paste the URL of the Jenkins server in the URL form field.
+ g.   Select "application/json" as the content type.
+ h.   Select "Just the push event".
+ i.   Leave the "Active" check box selected.
+ j.   Click "Add webhook" to save the webhook.
+ When the webhook is created, the jenkins build will be triggered once a push is made to the repository. This will start the pipeline.
 5.  Make a push to the GitHub repository.
 
-### Jenkins pipeline flow
+### Jenkins Pipeline Flow
 Once the pipeline is started, the following steps will be executed:
 
 1. Setup the environment.
@@ -101,6 +101,6 @@ Once the pipeline is started, the following steps will be executed:
     - production stack is created and the test endpoint for the production environment is returned. Note that this endpoint is not app-specific. To be able to test app-specific endpoints in the next step, the test cases should already contain the app-specific URI.
 7. Run tests on production.
 
-### How to configure the pipeline from another region
+### How to Configure the Pipeline for another Region
 
 To configure the CICD pipeline for any region: Copy the AMI specified for us-east-1 region (under mappings) in the Jenkins.yaml file to the region you require. Then specify the copied AMI along with the region in the Jenkins.yaml file under mappings.

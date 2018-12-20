@@ -11,7 +11,6 @@ product=$1
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
-sudo apt-get update
 echo "Installing mysql-client"
 sudo apt-get install -q -y mysql-client
 echo "Installing pip"

@@ -62,13 +62,13 @@ Steps to start:
     *   DBUsername - Database username.
     *   DBPassword - Database password.
     *   JDKVersion - Java version.
-    *   GITREPOARTIFACTS - Git URL of the artifact repository. The artifacts in this repository will be deployed from the pipeline.
+    *   GITREPOARTIFACTS - Git URL of the artifact repository. The artifacts in this repository will be deployed from the pipeline.(Sample atrifact repo - https://github.com/wso2-incubator/cicd-test-artifacts.git)
     *   GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git).
     *   GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git).
     *   Email - In case of any failures in the pipeline, a message will be sent to this email.
 
 3. Create the stack.
-4. Once the EI instance is created, log in to the instance through a web browser using "<public DNS> (IPV4):8080".
+4. Once the stack is created, find the instance named "WSO2JenkinsInstance" in EC2 instances. Get the public DNS(IPv4) address of the instance. Now you can log into Jenkins through a web browser using "public DNS(IPv4):8080".
 5. Go Global Jenkins Credentials, and update your AWS credentials (under aws_creds) and WUM credentials (under wum_creds) respectively.
 6. Configure GitHub webhook for the jenkins server. Follow the steps given below.
     - Sign in to your GitHub account.
@@ -76,13 +76,13 @@ Steps to start:
     - Click "Settings" on the right panel.
     - Then click "Webhooks" on the left panel.
     - Click the "Add WebHook" button.
-    - Paste the URL of the Jenkins server in the URL form field.
+    - Paste the URL of the Jenkins server in the URL form field. The webhook URL is <Public DNS (IPv4):8080/github-webhook/>
     - Select "application/json" as the content type.
     - Select "Just the push event".
     - Leave the "Active" check box selected.
     - Click "Add webhook" to save the webhook.
 
-           When the webhook is created, the jenkins build will be triggered once a push is made to the repository. This will start the pipeline.
+           When the webhook is created, the for each push that is made to the repository a jenkins build will be triggered. This will start the pipeline. When two pushes are made at one time, for each push a build will be triggered one after the other.
 
 5.  Make a push to the GitHub repository.
 

@@ -1,9 +1,10 @@
 # jenkins-pipeline-artifacts
 
-This repository contains resources needed for CICD pipeline.
+This repository contains the resources needed for the CICD pipeline.
 
+#### Folder Structure
+The following diagram shows the folder structure in this repository:
 
-#### Structure
 ```
 .
 ├── cfn
@@ -33,20 +34,21 @@ This repository contains resources needed for CICD pipeline.
         ├── apply-config.sh
         └── construct-puppet-module.sh
 ```
-* cfn: This directory holds the CFN for the Jenkins server
-* jenkinsfile: This directory contains Main pipeline script for each infrastructure
-* scripts: This directory holds utility scripts needed for Packer and Puppet
+* cfn: This directory holds the cloud formation template for the Jenkins server.
+* jenkinsfile: This directory contains the main pipeline scripts for each infrastructure.
+* scripts: This directory holds the utility scripts needed for Packer and Puppet.
 
-#### How to Start
-The jenkins.yaml file holds the CFN (template file) for the Jenkins Server in region us-east-1.
-Steps to Run:
-1.  Upload the jenkins.yaml file as template.
+#### How to start the pipeline
+The jenkins.yaml file holds the CFN (template file) for the Jenkins server in region us-east-1.
+
+Steps to start:
+1.  Upload the jenkins.yaml file as the template.
 2.  Specify the required parameters mentioned below.
-    *   AWSAccessKeyId - AWS Access Key ID
-    *   AWSAccessKeySecret - AWS Secret Key
-    *   KeyPairName - This key pair name will be used to as the private key used to log in to instances through SSH.
-    *   CertificateName - A valid SSL certificate used for HTTPS
-    *   WSO2InstanceType - The aws inatnce type that you want to create. This must be a valid EC2 instance type. This can be any of following type.
+    *   AWSAccessKeyId - AWS Access Key ID.
+    *   AWSAccessKeySecret - AWS Secret Key.
+    *   KeyPairName - This key pair name will be used as the private key when a user logs in to instances through SSH.
+    *   CertificateName - A valid SSL certificate used for HTTPS.
+    *   WSO2InstanceType - The AWS instance type that you want to create. This must be any of the following valid EC2 instance types:
         -   t2.medium
         -   t2.large
         -   t2.2xlarge
@@ -55,57 +57,50 @@ Steps to Run:
         -   m3.2xlarge
         -   m4.large
         -   m4.xlarge (recommended)
-    *   WUMPassword - Password for WUM
-    *   WUMUsername - Username for WUM
-    *   DBUsername - Database Username
-    *   DBPassword - Database Password
-    *   JDKVersion - Java Version
-    *   GITREPOARTIFACTS - Git URL of the artifacts repository. The artifacts in this repository will be deployed from the Pipeline.
-    *   GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git)
-    *   GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git)
-    *   Email - In case of any failures in the pipeline an email will be sent to this email.
+    *   WUMPassword - Password for WUM.
+    *   WUMUsername - Username for WUM.
+    *   DBUsername - Database username.
+    *   DBPassword - Database password.
+    *   JDKVersion - Java version.
+    *   GITREPOARTIFACTS - Git URL of the artifact repository. The artifacts in this repository will be deployed from the pipeline.
+    *   GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git).
+    *   GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git).
+    *   Email - In case of any failures in the pipeline, a message will be sent to this email.
 
-3.  Create the stack.
-4.  Once the EI instance is created, log into the instance through a web browser, using "<public DNS> (IPV4):8080"
-5.  Set your AWS credentials and WUM credentials in global Jenkins credentials configured as aws_creds and wum_creds respectively.
-4.  Configure github webhook for the jenkins server
-5.  Make a push to the git hub repository
+3. Create the stack.
+4. Once the EI instance is created, log in to the instance through a web browser using "<public DNS> (IPV4):8080".
+5. Go Global Jenkins Credentials, and update your AWS credentials (under aws_creds) and WUM credentials (under wum_creds) respectively.
+6. Configure GitHub webhook for the jenkins server. Follow the steps given below.
+    a. Sign in to your GitHub account.
+    b. Select the related repository you own.
+    c. Click "Settings" on the right panel.
+    d. Then click "Webhooks" on the left panel.
+    e. Click the "Add WebHook" button.
+    f. Paste the URL of the Jenkins server in the URL form field.
+    g. Select "application/json" as the content type.
+    h. Select "Just the push event".
+    i. Leave the "Active" check box selected.
+    j. Click "Add webhook" to save the webhook.
+    When the webhook is created, the jenkins build will be triggered once a push is made to the repository. This will start the pipeline.
+5.  Make a push to the GitHub repository.
 
-The following parameters are required to be given when uploading the file.
+### Jenkins pipeline flow
+Once the pipeline is started, the following steps will be executed:
 
-#### How to create a Github Webhook
-1.  Sign in to your GitHub account.
-2.  Select the related repository you own.
-3.  Click on "Settings" on the right panel.
-4.  Then click on "Webhooks" on the left panel.
-5.  Click on the "Add WebHook" Button.
-4.  Paste the URL of the Jenkins server in the URL form field.
-5.  Select "application/json" as the content type.
-6.  Select "Just the push event".
-7.  Leave the "Active" checkbox checked.
-8.  Click on "Add webhook" to save the webhook.
-Once the webhook is created, when a push is made to the repository, the jenkins build will be triggered, which will start the Pipeline.
-
-### Jenkins Pipeline Flow
-
-1. Setup the Environment
-    - clone the repositories and make the directory structure
-2. Build the pack
-    - product pack is created as a .zip file
-3. Build Image for EI Instances
-    - this steps returns an AMI ID that are used in the steps 4 and 5.
-4. Deploy to Staging
-    - staging stack is created and the test endpoint is returned.
-5. Run tests staging
-    - run tests on staging environment.
-6. Deploy to Production
-    - production stack is created and the test point for product endpoint is returned.
-7. Run tests on production
-
-The returned endpoint returned in step 4 and 6 are not app specific. In order to test for app specific end points the tests cases should specify the app specific URI.
+1. Setup the environment.
+    - clone the repositories and make the directory structure.
+2. Build the pack.
+    - product pack is created as a .zip file.
+3. Build the image for EI Instances.
+    - this step returns an AMI ID that is used in steps 4 and 5.
+4. Deploy to staging.
+    - staging stack is created and the test endpoint is returned. Note that this endpoint is not app-specific. To be able to test app-specific endpoints (in the next step), the test cases should already contain the app-specific URI.
+5. Run tests on staging.
+    - run tests in the staging environment.
+6. Deploy to production.
+    - production stack is created and the test endpoint for the production environment is returned. Note that this endpoint is not app-specific. To be able to test app-specific endpoints in the next step, the test cases should already contain the app-specific URI.
+7. Run tests on production.
 
 ### How to configure the pipeline from another region
 
-To configure the CICD pipeline for any region, copy the AMI specified in Jenkins.yaml file under mappings for the region us-east-1 to that required region. Include the copied AMI for that region in the jenkins.yaml file, under mappings.
-
-
+To configure the CICD pipeline for any region: Copy the AMI specified in the Jenkins.yaml file (under mappings) for the us-east-1 region to the AMI in the Jenkins.yaml file in the required region.

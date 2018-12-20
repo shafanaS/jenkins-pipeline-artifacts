@@ -66,6 +66,8 @@ Steps to Run:
     *   Email - In case of any failures in the pipeline an email will be sent to this email.
 
 3.  Create the stack.
+4.  Once the EI instance is created, log into the instance through a web browser, using "<public DNS> (IPV4):8080"
+5.  Set your AWS credentials and WUM credentials in global Jenkins credentials configured as aws_creds and wum_creds respectively.
 4.  Configure github webhook for the jenkins server
 5.  Make a push to the git hub repository
 

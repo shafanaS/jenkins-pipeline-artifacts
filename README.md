@@ -31,8 +31,7 @@ The following diagram shows the folder structure in this repository:
     │           │   └── provision_db_mb.sh
     │           └── ei-init.sh
     └── puppet
-        ├── apply-config.sh
-        └── construct-puppet-module.sh
+        └── apply-config.sh
 ```
 * cfn: This directory holds the cloud formation template for the Jenkins server.
 * jenkinsfile: This directory contains the main pipeline scripts for each infrastructure.

@@ -70,8 +70,10 @@ then
    echo "Applying artifact(s) to the existing deployment pattern >> $DEPLOYMENT_PATTERN..."
 else
    echo "Initial Run..."
+   echo "${PRODUCT}"
    INITIAL_RUN=true
    mkdir ${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/
+   echo "created deployment directory - ${DEPLOYMENT_PATTERN}"
 fi
 
 if $INITIAL_RUN ;

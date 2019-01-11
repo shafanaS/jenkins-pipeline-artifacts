@@ -30,8 +30,7 @@
 # Prerequisites
 #   1. WUM 3.0.1 installed
 #   2. Puppet 5.4.1 or higher installed
-#   3. Puppet module configurations under the directory conf-home/modules/
-#   4. Directory pre created with the module_name inside conf-home/script
+#   3. Puppet module configurations under the directory $working_directory/configs/modules/
 #
 # TODO: Add git support to clone the PUPPET modules
 
@@ -44,7 +43,7 @@ ARTIFACT_LOCATION=${ARTIFACT_LOC}
 WORKING_DIRECTORY=$(pwd)
 MODULE_PATH="${PUPPET_CONF_LOC}/modules"
 ZIP_OUTPUT_LOCATION=${ZIP_OUTPUT_LOC}
-DEPLOYMENT_PATTERN="is"
+DEPLOYMENT_PATTERN=${PRODUCT}
 WUM_USER=${WUM_USERNAME}
 WUM_PASSWORD=${WUM_PASSWORD}
 WUM_PRODUCT_HOME="${WUM_HOME}"
@@ -65,6 +64,7 @@ FAILED_RM_UNZIP=16
 FAILED_ARTIFACT_APPLY=17
 
 echo $WORKING_DIRECTORY
+echo ${PRODUCT}
 if [ -d "${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/" ];
 then
    echo "Applying artifact(s) to the existing deployment pattern >> $DEPLOYMENT_PATTERN..."

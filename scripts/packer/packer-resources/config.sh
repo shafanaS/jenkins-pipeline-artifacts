@@ -20,7 +20,7 @@ echo "Installing maven"
 sudo apt install -q -y maven
 #copy both staging and prod products
 echo "Copying $product ..."
-cp /tmp/$product /home/ubuntu/
+cp /tmp/$product.zip /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
 cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
 cp /tmp/util/ei/provision_db_ei.sh /usr/local/bin/

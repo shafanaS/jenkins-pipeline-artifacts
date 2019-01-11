@@ -99,6 +99,8 @@ node(NODE_MASTER) {
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
+                       product         : "$params.PRODUCT",
+                       version         : "$params.VERSION",
                        keyPairName     : "${env.KeyPairName}",
                        certName        : "${env.CertificateName}",
                        dbUsername      : "${env.DBUsername}",
@@ -126,6 +128,8 @@ node(NODE_MASTER) {
         stage(Constants.Stages.DEPLOY_PRODUCTION) {
             log.info "Deploying to Production"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
+                       product         : "$params.PRODUCT",
+                       version         : "$params.VERSION",
                        keyPairName     : "${env.KeyPairName}",
                        certName        : "${env.CertificateName}",
                        dbUsername      : "${env.DBUsername}",

@@ -7,7 +7,7 @@ export LANG=en_US.UTF-8
 export DEBIAN_FRONTEND=noninteractive
 product=$1
 
-################################################ EI 6.4.0 ####################################################
+################################################ WSO2 Product ####################################################
 sudo apt-get update
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
@@ -18,14 +18,15 @@ echo "Installing pip"
 sudo apt install -q -y python-pip
 echo "Installing maven"
 sudo apt install -q -y maven
+#copy both staging and prod products
 echo "Copying $product ..."
 cp /tmp/$product /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
 cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
 cp /tmp/util/ei/provision_db_ei.sh /usr/local/bin/
-mkdir /home/ubuntu/ei
-cp /tmp/util/ei/ei.sql /home/ubuntu/ei/ei.sql
-chmod +x /home/ubuntu/ei/ei.sql
+mkdir /home/ubuntu/$product
+cp /tmp/util/ei/ei.sql /home/ubuntu/$product/ei.sql
+chmod +x /home/ubuntu/$product/ei.sql
 chmod +x /usr/local/bin/provision_db_ei.sh
 
 #echo "Copying sources.list ..."

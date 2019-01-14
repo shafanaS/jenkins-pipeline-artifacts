@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # ----------------------------------------------------------------------------
 #
-# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 #
 # WSO2 Inc. licenses this file to you under the Apache License,
 # Version 2.0 (the "License"); you may not use this file except
@@ -24,9 +24,9 @@ readonly WUM_USERNAME=$1
 readonly WUM_PASSWORD=$2
 
 PACK_DIRECTORY=/etc/puppet/code/environments/production/modules/installers/files
-WSO2_SERVER_PACK=wso2ei-6.4.0.zip
-WSO2_SERVER_UPDATED_PACK=wso2ei-6.4.0*.zip
-WUM_PRODUCT_LOCATION=/home/ubuntu/.wum3/products/wso2ei/6.4.0/full
+WSO2_SERVER_PACK=wso2is-5.7.0.zip
+WSO2_SERVER_UPDATED_PACK=wso2is-5.7.0*.zip
+WUM_PRODUCT_LOCATION=/home/ubuntu/.wum3/products/wso2is/5.7.0/full
 WUM_LOCATION=/usr/local/wum/bin/wum
 
 sudo -u ubuntu ${WUM_LOCATION} init -u ${WUM_USERNAME} -p ${WUM_PASSWORD} -v
@@ -38,7 +38,7 @@ sudo -u ubuntu ${WUM_LOCATION} add --file ${PACK_DIRECTORY}/${WSO2_SERVER_PACK} 
 #
 #sudo -u ubuntu ${WUM_LOCATION} init -u ${WUM_USERNAME} -p ${WUM_PASSWORD} -v
 
-sudo -u ubuntu ${WUM_LOCATION} update wso2ei-6.4.0
+sudo -u ubuntu ${WUM_LOCATION} update wso2is-5.7.0
 
 #sudo rm /etc/update-motd.d/00-header
 #sudo rm /etc/update-motd.d/10-help-text

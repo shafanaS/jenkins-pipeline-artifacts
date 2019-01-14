@@ -5,7 +5,6 @@
     "product": "",
     "version": "",
     "name": "BASE",
-    "product": null,
     "base_ami": "ami-04e245635a03bf935",
     "region": "us-east-1",
     "buildtime": "{{ isotime \"2006-01-02-1504\" }}"

@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-# Copyright 2018 WSO2, Inc. (http://wso2.com)
+# Copyright 2019 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,4 +16,4 @@
 
 #!/bin/bash
 echo "Running DB scripts..."
-mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < /home/ubuntu/ei/ei.sql
+mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < /home/ubuntu/is/identity.sql

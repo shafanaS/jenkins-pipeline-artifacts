@@ -119,7 +119,6 @@ node(NODE_MASTER) {
             log.info "Running Test"
             log.info "${TEST_ENDPOINT}"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
-          ////run staging tests
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
                 executeTests "${TEST_SCRIPT}"
             }
@@ -148,7 +147,6 @@ node(NODE_MASTER) {
             log.info " Running Test "
             log.info "${TEST_ENDPOINT}"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
-          ////run prod tests
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
                 executeTests "${TEST_SCRIPT}"
             }

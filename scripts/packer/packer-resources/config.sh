@@ -38,6 +38,8 @@ cp /tmp/$product.zip /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
 cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
 cp /tmp/util/is/provision_db_is.sh /usr/local/bin/
+cp /tmp/util/is/provision_db_metrics.sh /usr/local/bin/
+cp /tmp/util/is/provision_db_identity.sh /usr/local/bin/
 mkdir /home/ubuntu/$product
 cp /tmp/util/is/is.sql /home/ubuntu/$product/is.sql
 cp /tmp/util/is/metrics.sql /home/ubuntu/$product/metrics.sql

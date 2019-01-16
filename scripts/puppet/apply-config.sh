@@ -19,11 +19,11 @@
 # This script builds a zipped file of a WSO2 WUM supported product after applying the followings.
 # If INITIAL_RUN,
 #     1. WUM update.
-#     2. Apply custom configurations using a configuration managemnt tool like Ansible or Puppet.
+#     2. Apply custom configurations using a configuration management tool like Ansible or Puppet.
 #     3. Copy the artifact(s) to the location(s).
 #     4. Run the in-place updates tool.
 # If not the INITIAL_RUN,
-#     1. Apply custom configurations using a configuration managemnt tool like Ansible or Puppet.
+#     1. Apply custom configurations using a configuration management tool like Ansible or Puppet.
 #     2. Copy the artifact(s) to the location(s).
 #     3. Run the in-place updates tool.
 #
@@ -43,7 +43,7 @@ ARTIFACT_LOCATION=${ARTIFACT_LOC}
 WORKING_DIRECTORY=$(pwd)
 MODULE_PATH="${PUPPET_CONF_LOC}/modules"
 ZIP_OUTPUT_LOCATION=${ZIP_OUTPUT_LOC}
-DEPLOYMENT_PATTERN="is"
+DEPLOYMENT_PATTERN=${PRODUCT}
 WUM_USER=${WUM_USERNAME}
 WUM_PASSWORD=${WUM_PASSWORD}
 WUM_PRODUCT_HOME="${WUM_HOME}"
@@ -63,7 +63,6 @@ FAILED_UNZIP=15
 FAILED_RM_UNZIP=16
 FAILED_ARTIFACT_APPLY=17
 
-echo $WORKING_DIRECTORY
 if [ -d "${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/" ];
 then
    echo "Applying artifact(s) to the existing deployment pattern >> $DEPLOYMENT_PATTERN..."
@@ -71,7 +70,6 @@ else
    echo "Initial Run..."
    INITIAL_RUN=true
    mkdir ${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/
-   echo "created deployment directory - ${DEPLOYMENT_PATTERN}"
 fi
 
 if $INITIAL_RUN ;

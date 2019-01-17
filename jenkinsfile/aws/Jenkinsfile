@@ -76,14 +76,15 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.BUILD_PACK) {
             log.info "Generate Pack with configs"
-            applyConfig([product       : "${PRODUCT}",
-                         version       : "${VERSION}",
-                         wum_creds     : "${WUM_CREDS}",
-                         puppetManifest: "${PUPPET_CONF}",
-                         artifactsLoc  : "${ARTIFACT_LOC}",
-                         zipLoc        : "${IMAGE_RESOURCES_LOC}",
-                         wumHome       : "${WUM_HOME}",
-                         puppetConfLoc : "${PUPPET_CONF_DIR}"])
+            applyConfig([product            : "${PRODUCT}",
+                         version            : "${VERSION}",
+                         deploymentPattern  : "${env.DeploymentPattern}",
+                         wum_creds          : "${WUM_CREDS}",
+                         puppetManifest     : "${PUPPET_CONF}",
+                         artifactsLoc       : "${ARTIFACT_LOC}",
+                         zipLoc             : "${IMAGE_RESOURCES_LOC}",
+                         wumHome            : "${WUM_HOME}",
+                         puppetConfLoc      : "${PUPPET_CONF_DIR}"])
         }
 
         stage(Constants.Stages.BUILD_IMAGE) {
@@ -100,7 +101,6 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
-            log.info "${STAGING_CF}"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
                        product         : "${PRODUCT}",
                        version         : "${VERSION}",
@@ -120,7 +120,6 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.RUNNING_TESTS) {
             log.info "Running Test"
-            log.info "${TEST_ENDPOINT}"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
                 executeTests "${TEST_SCRIPT}"
@@ -148,7 +147,6 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.RUNNING_TESTS) {
             log.info " Running Test "
-            log.info "${TEST_ENDPOINT}"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
                 executeTests "${TEST_SCRIPT}"

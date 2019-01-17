@@ -43,7 +43,7 @@ ARTIFACT_LOCATION=${ARTIFACT_LOC}
 WORKING_DIRECTORY=$(pwd)
 MODULE_PATH="${PUPPET_CONF_LOC}/modules"
 ZIP_OUTPUT_LOCATION=${ZIP_OUTPUT_LOC}
-DEPLOYMENT_PATTERN=${PRODUCT}
+DEPLOYMENT_PATTERN=${DEPLOYMENT_PATTERN}
 WUM_USER=${WUM_USERNAME}
 WUM_PASSWORD=${WUM_PASSWORD}
 WUM_PRODUCT_HOME="${WUM_HOME}"
@@ -120,9 +120,7 @@ then
 fi
 
 echo "Applying Puppet modules..."
-echo ${MODULE_PATH}
-echo ${DEPLOYMENT_PATTERN}
-puppet apply -e "include ${DEPLOYMENT_PATTERN}" --modulepath=${MODULE_PATH} --test
+puppet apply -e "include ${DEPLOYMENT_PATTERN}" --modulepath=${MODULE_PATH}
 if [ $? -ne 0 ] ; then
   echo "Failed to apply Puppet for ${PRODUCT}-${PRODUCT_VERSION}..."
   exit ${FAILED_PUPPET_APPLY}

@@ -122,7 +122,7 @@ fi
 echo "Applying Puppet modules..."
 echo ${MODULE_PATH}
 echo ${DEPLOYMENT_PATTERN}
-puppet apply -e "include ${DEPLOYMENT_PATTERN}" --modulepath=${MODULE_PATH} --debug
+puppet apply -e "include ${DEPLOYMENT_PATTERN}" --modulepath=${MODULE_PATH} --test
 if [ $? -ne 0 ] ; then
   echo "Failed to apply Puppet for ${PRODUCT}-${PRODUCT_VERSION}..."
   exit ${FAILED_PUPPET_APPLY}

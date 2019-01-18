@@ -16,9 +16,9 @@
 
 #!/bin/bash
 echo "Running DB scripts..."
-for dbscript in *.sql
+for dbscript in /home/ubuntu/$1/dbScripts/*.sql
   do
    echo "Executing script: $dbscript ..."
-   mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < /home/ubuntu/$1/dbScripts/dbscript.sql
+   mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $dbscript
  done
 

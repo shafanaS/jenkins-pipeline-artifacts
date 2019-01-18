@@ -39,19 +39,11 @@ cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
 cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
 mkdir /usr/local/bin/bashScripts
 cp /tmp/util/bashScripts/* /usr/local/bin/bashScripts
-#cp /tmp/util/is/provision_db_metrics.sh /usr/local/bin/
-#cp /tmp/util/is/provision_db_identity.sh /usr/local/bin/
 mkdir /home/ubuntu/$product
 mkdir /home/ubuntu/$product/dbScripts
 cp /tmp/util/dbScripts/* /home/ubuntu/$product/dbScripts/
-#cp /tmp/util/is/metrics.sql /home/ubuntu/$product/metrics.sql
-#cp /tmp/util/is/identity.sql /home/ubuntu/$product/identity.sql
 chmod -R +x /home/ubuntu/$product/dbScripts
 chmod -R +x /usr/local/bin/bashScripts
-#chmod +x /home/ubuntu/$product/metrics.sql
-#chmod +x /usr/local/bin/provision_db_metrics.sh
-#chmod +x /home/ubuntu/$product/identity.sql
-#chmod +x /usr/local/bin/provision_db_identity.sh
 
 
 #echo "Copying sources.list ..."

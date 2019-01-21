@@ -73,7 +73,6 @@ node(NODE_MASTER) {
             }
             copy([src: "${RESOURCES}/*", dest: "${IMAGE_RESOURCES_LOC}"])
             copy([src: "${PACKER_RESOURCES}/*", dest: "${IMAGE_RESOURCES_LOC}"])
-            copy([src: "${ENDPOINT_LOC}/*", dest: "${IMAGE_RESOURCES_LOC}"])
         }
 
         stage(Constants.Stages.BUILD_PACK) {

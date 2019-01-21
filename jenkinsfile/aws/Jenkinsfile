@@ -41,7 +41,7 @@ node(NODE_MASTER) {
     def IMAGE_RESOURCES = "image-resources"
     def PUPPET_CONF_DIR = "${WORKSPACE}/${CONF_HOME_DIR}"
     def ARTIFACT_LOC = "${WORKSPACE}/${ARTIFACTS_DIR}/artifacts"
-    def ENDPOINT_LOC = "${ARTIFACT_LOC}/repository/deployment/server/carbonapps/endpoints
+    def ENDPOINT_LOC = "${ARTIFACT_LOC}/repository/deployment/server/carbonapps/endpoints"
     def IMAGE_RESOURCES_LOC = "${WORKSPACE}/${IMAGE_RESOURCES}/"
     def RESOURCES = Constants.Paths.RESOURCES
     def PACKER_RESOURCES = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer-resources"
@@ -73,6 +73,7 @@ node(NODE_MASTER) {
             }
             copy([src: "${RESOURCES}/*", dest: "${IMAGE_RESOURCES_LOC}"])
             copy([src: "${PACKER_RESOURCES}/*", dest: "${IMAGE_RESOURCES_LOC}"])
+            copy([src: "${ENDPOINT_LOC}/*", dest: "${IMAGE_RESOURCES_LOC}"])
         }
 
         stage(Constants.Stages.BUILD_PACK) {

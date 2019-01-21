@@ -41,6 +41,7 @@ node(NODE_MASTER) {
     def IMAGE_RESOURCES = "image-resources"
     def PUPPET_CONF_DIR = "${WORKSPACE}/${CONF_HOME_DIR}"
     def ARTIFACT_LOC = "${WORKSPACE}/${ARTIFACTS_DIR}/artifacts"
+    def ENDPOINT_LOC = "${ARTIFACT_LOC}/repository/deployment/server/carbonapps/endpoints
     def IMAGE_RESOURCES_LOC = "${WORKSPACE}/${IMAGE_RESOURCES}/"
     def RESOURCES = Constants.Paths.RESOURCES
     def PACKER_RESOURCES = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer-resources"
@@ -101,6 +102,7 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
+            log.info "deployment script - ${STAGING_CF}"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
                        product         : "${PRODUCT}",
                        version         : "${VERSION}",

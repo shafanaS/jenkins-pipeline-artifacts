@@ -24,18 +24,21 @@ The following diagram shows the folder structure in this repository:
     │       │   └── sysctl.conf
     │       ├── config.sh
     │       └── util
-    │           ├── ei
-    │           │   ├── ei.sql
-    │           │   ├── mb.sql
-    │           │   ├── provision_db_ei.sh
-    │           │   └── provision_db_mb.sh
-    │           └── ei-init.sh
+    │           ├── bashScripts
+    │           │   └── provision_db_scripts.sh
+    │           └── dbScripts
+    │               └── is.sql
     └── puppet
         └── apply-config.sh
+        └── README.md
 ```
 * cfn: This directory holds the cloud formation template for the Jenkins server.
 * jenkinsfile: This directory contains the main pipeline scripts for each infrastructure.
 * scripts: This directory holds the utility scripts needed for Packer and Puppet.
+
+Prerequisites
+* Replace the files inside the dbScripts directory with the database scripts respective for the deployment pattern.
+* Replace the content of provision_db.sql file in bashScript directory to execute the database scripts inside the dbScripts directory.
 
 #### How to Start the Pipeline
 The jenkins.yaml file holds the CFN (template file) for the Jenkins server in region us-east-1.

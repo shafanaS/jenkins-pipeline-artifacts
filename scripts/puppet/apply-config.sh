@@ -126,14 +126,6 @@ if [ $? -ne 0 ] ; then
   exit ${FAILED_PUPPET_APPLY}
 fi
 
-echo "Applying the new artifact(s) to your WSO2 setup configuration..."
-# Copy the artifact(s) to the locations(s)
-${CP} -TRv ${ARTIFACT_LOCATION}/ ${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/${PRODUCT}-${PRODUCT_VERSION}/
-if [ $? -ne 0 ] ; then
-  echo "Failed to apply the new artifact(s) to WSO2 setup ${PRODUCT}-${PRODUCT_VERSION}..."
-  exit ${FAILED_ARTIFACT_APPLY}
-fi
-
 if ! $INITIAL_RUN;
 then
     echo "Running the in-place updates tool..."

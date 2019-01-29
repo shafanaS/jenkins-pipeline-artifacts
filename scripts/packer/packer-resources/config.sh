@@ -39,6 +39,9 @@ echo "Copying $product ..."
 cp /tmp/$product.zip /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
 cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
+mkdir /home/ubuntu/endpointCars
+cp /tmp/*_staging*.car /home/ubuntu/endpointCars
+cp /tmp/*_production*.car /home/ubuntu/endpointCars
 mkdir /usr/local/bin/bashScripts
 cp /tmp/util/bashScripts/* /usr/local/bin/bashScripts
 mkdir /home/ubuntu/$product

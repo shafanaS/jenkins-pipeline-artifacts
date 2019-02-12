@@ -38,7 +38,6 @@ The following diagram shows the folder structure in this repository:
 
 Prerequisites
 * Replace the files inside the dbScripts directory with the database scripts respective for the deployment pattern.
-* Replace the content of provision_db.sql file in bashScript directory to execute the database scripts inside the dbScripts directory.
 
 #### How to Start the Pipeline
 The jenkins.yaml file holds the CFN (template file) for the Jenkins server in region us-east-1.
@@ -70,6 +69,12 @@ Steps to start:
     *   DBUsername - Database username.
     *   DBPassword - Database password.
     *   JDKVersion - Java version.
+    *   Product - Product for which the pipeline is created
+            -   EI
+            -   IS
+    *   DeploymentPattern - Deployment pattern of the product. Given values
+            -   ei_integrator
+            -   is
     *   GITREPOARTIFACTS - Git URL of the artifact repository. The artifacts in this repository will be deployed from the pipeline.(Sample atrifact repo - https://github.com/wso2-incubator/cicd-test-artifacts.git)
     *   GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git).
     *   GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git).

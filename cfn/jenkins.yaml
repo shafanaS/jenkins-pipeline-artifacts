@@ -42,6 +42,8 @@ Metadata:
       - Label:
           default: Other Parameters
         Parameters:
+          - ProductName
+          - DeploymentPattern
           - GITREPOARTIFACTS
           - GITREPOCF
           - GITREPOPUPPET
@@ -72,6 +74,10 @@ Metadata:
         default: CloudFormation Scripts (git)
       GITREPOPUPPET:
         default: Configuration Repository (git)
+      ProductName:
+        default: Product Name
+      DeploymentPattern:
+        default: Deployment Pattern
       JDKVersion:
         default: JDK Version
       Email:
@@ -103,6 +109,16 @@ Parameters:
       - m3.2xlarge
       - m4.large
     ConstraintDescription: Must be a valid EC2 instance type
+  ProductName:
+    Type: String
+    AllowedValues:
+      - EI
+      - IS
+  DeploymentPattern:
+    Type: String
+    AllowedValues:
+      - ei_integrator
+      - is
   WUMPassword:
     Type: String
     Default: ""
@@ -169,7 +185,7 @@ Resources:
       ImageId: !FindInMap
         - WSO2UbuntuAMIRegionMap
         - !Ref 'AWS::Region'
-        - Ubuntu180464bit
+        - !Ref ProductName
       InstanceType: t2.medium
       KeyName: !Ref KeyPairName
       Monitoring: 'false'
@@ -198,6 +214,8 @@ Resources:
           sed -i "s/VAL7/${DBUsername}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL8/${DBPassword}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL9/${JDKVersion}/g" /home/jenkins/jenkins_env
+          sed -i "s/VALX/${ProductName}/g" /home/jenkins/jenkins_env
+          sed -i "s/VALY/${DeploymentPattern}/g" /home/jenkins/jenkins_env
           sed -i "s/VALZ/${Email}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL1/${AWSAccessKeyId}/g" /home/ubuntu/.aws/credentials
           sed -i "s|VAL2|${AWSAccessKeySecret}|g" /home/ubuntu/.aws/credentials
@@ -248,4 +266,5 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      Ubuntu180464bit: ami-0d19e985b9bada638
+      EI: ami-005919966aa99e5ef
+      IS: ami-0f7baed8349614a0b

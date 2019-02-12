@@ -103,7 +103,6 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
-            log.info "deployment script - ${STAGING_CF}"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
                        product         : "${PRODUCT}",
                        version         : "${VERSION}",

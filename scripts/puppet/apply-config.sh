@@ -19,19 +19,18 @@
 # This script builds a zipped file of a WSO2 WUM supported product after applying the followings.
 # If INITIAL_RUN,
 #     1. WUM update.
-#     2. Apply custom configurations using a configuration managemnt tool like Ansible or Puppet.
+#     2. Apply custom configurations using a configuration management tool like Ansible or Puppet.
 #     3. Copy the artifact(s) to the location(s).
 #     4. Run the in-place updates tool.
 # If not the INITIAL_RUN,
-#     1. Apply custom configurations using a configuration managemnt tool like Ansible or Puppet.
+#     1. Apply custom configurations using a configuration management tool like Ansible or Puppet.
 #     2. Copy the artifact(s) to the location(s).
 #     3. Run the in-place updates tool.
 #
 # Prerequisites
 #   1. WUM 3.0.1 installed
 #   2. Puppet 5.4.1 or higher installed
-#   3. Puppet module configurations under the directory conf-home/modules/
-#   4. Directory pre created with the module_name inside conf-home/script
+#   3. Puppet module configurations under the directory $working_directory/configs/modules/
 #
 # TODO: Add git support to clone the PUPPET modules
 
@@ -44,7 +43,7 @@ ARTIFACT_LOCATION=${ARTIFACT_LOC}
 WORKING_DIRECTORY=$(pwd)
 MODULE_PATH="${PUPPET_CONF_LOC}/modules"
 ZIP_OUTPUT_LOCATION=${ZIP_OUTPUT_LOC}
-DEPLOYMENT_PATTERN="ei_integrator"
+DEPLOYMENT_PATTERN=${DEPLOYMENT_PATTERN}
 WUM_USER=${WUM_USERNAME}
 WUM_PASSWORD=${WUM_PASSWORD}
 WUM_PRODUCT_HOME="${WUM_HOME}"
@@ -64,7 +63,6 @@ FAILED_UNZIP=15
 FAILED_RM_UNZIP=16
 FAILED_ARTIFACT_APPLY=17
 
-echo $WORKING_DIRECTORY
 if [ -d "${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/" ];
 then
    echo "Applying artifact(s) to the existing deployment pattern >> $DEPLOYMENT_PATTERN..."
@@ -122,19 +120,10 @@ then
 fi
 
 echo "Applying Puppet modules..."
-echo ${MODULE_PATH}
 puppet apply -e "include ${DEPLOYMENT_PATTERN}" --modulepath=${MODULE_PATH}
 if [ $? -ne 0 ] ; then
   echo "Failed to apply Puppet for ${PRODUCT}-${PRODUCT_VERSION}..."
   exit ${FAILED_PUPPET_APPLY}
-fi
-
-echo "Applying the new artifact(s) to your WSO2 setup configuration..."
-# Copy the artifact(s) to the locations(s)
-${CP} -TRv ${ARTIFACT_LOCATION}/ ${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/${PRODUCT}-${PRODUCT_VERSION}/
-if [ $? -ne 0 ] ; then
-  echo "Failed to apply the new artifact(s) to WSO2 setup ${PRODUCT}-${PRODUCT_VERSION}..."
-  exit ${FAILED_ARTIFACT_APPLY}
 fi
 
 if ! $INITIAL_RUN;

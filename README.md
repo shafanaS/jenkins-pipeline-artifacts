@@ -24,18 +24,20 @@ The following diagram shows the folder structure in this repository:
     │       │   └── sysctl.conf
     │       ├── config.sh
     │       └── util
-    │           ├── ei
-    │           │   ├── ei.sql
-    │           │   ├── mb.sql
-    │           │   ├── provision_db_ei.sh
-    │           │   └── provision_db_mb.sh
-    │           └── ei-init.sh
+    │           ├── bashScripts
+    │           │   └── provision_db_scripts.sh
+    │           └── dbScripts
+    │               └── is.sql
     └── puppet
         └── apply-config.sh
+        └── README.md
 ```
 * cfn: This directory holds the cloud formation template for the Jenkins server.
 * jenkinsfile: This directory contains the main pipeline scripts for each infrastructure.
 * scripts: This directory holds the utility scripts needed for Packer and Puppet.
+
+Prerequisites
+* Replace the files inside the dbScripts directory with the database scripts respective for the deployment pattern.
 
 #### How to Start the Pipeline
 The jenkins.yaml file holds the CFN (template file) for the Jenkins server in region us-east-1.
@@ -67,6 +69,12 @@ Steps to start:
     *   DBUsername - Database username.
     *   DBPassword - Database password.
     *   JDKVersion - Java version.
+    *   Product - Product for which the pipeline is created
+            -   EI
+            -   IS
+    *   DeploymentPattern - Deployment pattern of the product. Given values
+            -   ei_integrator
+            -   is
     *   GITREPOARTIFACTS - Git URL of the artifact repository. The artifacts in this repository will be deployed from the pipeline.(Sample atrifact repo - https://github.com/wso2-incubator/cicd-test-artifacts.git)
     *   GITREPOCF - Git URL of the repository that contains the CFN scripts for staging and production (https://github.com/wso2-incubator/cicd-deployment-scripts.git).
     *   GITREPOPUPPET - Git URL of the repository that contains the puppet scripts (https://github.com/wso2-incubator/cicd-configurations.git).

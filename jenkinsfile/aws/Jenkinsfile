@@ -30,7 +30,7 @@ node(NODE_MASTER) {
     //Constants
     def WUM_CREDS = 'wum_creds'
     def AWS_CREDS = 'aws_creds'
-    def BASE_IMAGE = "ami-0a98a5658a6d21cfc"
+    def BASE_IMAGE = "ami-038e13090ac4130a5"
     //Test Endpoint
     def TEST_ENDPOINT_KEY = "ESBHttpUrl"
     //Directories

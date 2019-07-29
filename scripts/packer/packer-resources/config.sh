@@ -22,19 +22,17 @@ export DEBIAN_FRONTEND=noninteractive
 product=$1
 
 ################################################ WSO2 Product ####################################################
-sudo apt-get update
-echo "Removing locks"
+sudo rm  /var/lib/dpkg/lock-frontend
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
-echo "Successfully removed locks"
+sudo apt install unzip
 echo "Installing mysql-client"
 sudo apt-get install -q -y mysql-client
 echo "Installing pip"
-sudo apt install -q -y python-pip
+sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip
 echo "Installing maven"
 sudo apt install -q -y maven
-#copy both staging and prod products
 echo "Copying $product ..."
 cp /tmp/$product.zip /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
@@ -50,12 +48,6 @@ cp /tmp/util/dbScripts/* /home/ubuntu/$product/dbScripts/
 chmod -R +x /home/ubuntu/$product/dbScripts
 chmod -R +x /usr/local/bin/bashScripts
 
-
-#echo "Copying sources.list ..."
-#sudo cp -f /tmp/conf/sources.list /etc/apt/sources.list.old -v
-#echo "deb http://security.ubuntu.com/ubuntu bionic-security main restricted
-#deb http://security.ubuntu.com/ubuntu bionic-security universe
-#deb http://security.ubuntu.com/ubuntu bionic-security multiverse" > /etc/apt/sources.list
 echo "Copying sysctl.conf ..."
 sudo cp /tmp/conf/sysctl.conf /etc/sysctl.conf -v
 echo "Copying limits.conf ..."

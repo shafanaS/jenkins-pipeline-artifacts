@@ -266,5 +266,5 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      EI: ami-005919966aa99e5ef
-      IS: ami-0873eb28a38103020
+      EI: ami-0fc4a03008c80bb4e
+      IS: ami-0484af2df9a89d62d

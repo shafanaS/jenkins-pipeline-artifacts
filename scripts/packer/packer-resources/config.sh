@@ -18,8 +18,10 @@
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export DEBIAN_FRONTEND=noninteractive
 product=$1
+version=$2
+deploymentPattern=$3
+dbType=$4
 
 ################################################ WSO2 Product ####################################################
 sudo rm  /var/lib/dpkg/lock-frontend
@@ -33,19 +35,20 @@ echo "Installing pip"
 sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip
 echo "Installing maven"
 sudo apt install -q -y maven
-echo "Copying $product ..."
-cp /tmp/$product.zip /home/ubuntu/
+echo "Copying $product-$version ..."
+cp /tmp/$product-$version.zip /home/ubuntu/
 cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
 cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
 mkdir /home/ubuntu/endpointCars
 cp /tmp/*_staging*.car /home/ubuntu/endpointCars
 cp /tmp/*_production*.car /home/ubuntu/endpointCars
+
 mkdir /usr/local/bin/bashScripts
-cp /tmp/util/bashScripts/* /usr/local/bin/bashScripts
-mkdir /home/ubuntu/$product
-mkdir /home/ubuntu/$product/dbScripts
-cp /tmp/util/dbScripts/* /home/ubuntu/$product/dbScripts/
-chmod -R +x /home/ubuntu/$product/dbScripts
+cp -r /tmp/util/bashScripts/$dbType/ /usr/local/bin/bashScripts/
+
+mkdir /home/ubuntu/dbScripts
+cp -r /tmp/util/dbScripts/$product/$version/$deploymentPattern/$dbType/ /home/ubuntu/dbScripts/
+chmod -R +x /home/ubuntu/dbScripts
 chmod -R +x /usr/local/bin/bashScripts
 
 echo "Copying sysctl.conf ..."

@@ -50,7 +50,7 @@
       "type": "shell",
       "execute_command": "sudo su - -c '{{ .Vars }} {{ .Path }}'",
       "inline" : [
-      "bash /tmp/config.sh \"{{ user `product` }}\""
+      "bash /tmp/config.sh \"{{ user `product` }}\" \"{{ user `version` }}\" \"{{ user `deploymentPattern` }}\" \"{{ user `dbType` }}\""
       ]
     }
   ],

@@ -62,6 +62,13 @@ FAILED_TO_MOVE_WUMMED_PRODUCT=14
 FAILED_UNZIP=15
 FAILED_RM_UNZIP=16
 FAILED_ARTIFACT_APPLY=17
+FAILED_WUM_INIT=18
+
+#init WUM
+${WUM} init -u ${WUM_USER} -p ${WUM_PASSWORD} -v &>> wum.log
+if [ $? -eq 1 ] ; then
+    exit ${FAILED_WUM_INIT}
+fi
 
 if [ -d "${WORKING_DIRECTORY}/${DEPLOYMENT_PATTERN}/" ];
 then
@@ -74,8 +81,6 @@ fi
 
 if $INITIAL_RUN ;
 then
-  ${WUM} init -u ${WUM_USER} -p ${WUM_PASSWORD} -v &>> wum.log
-
   # Add WUM product
   echo "Adding the product - ${PRODUCT}-${PRODUCT_VERSION}..." &>> wum.log
   ${WUM} add ${PRODUCT}-${PRODUCT_VERSION} -y  -v &>> wum.log

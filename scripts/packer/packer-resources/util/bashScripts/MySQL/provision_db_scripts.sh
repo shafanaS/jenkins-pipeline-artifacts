@@ -16,9 +16,18 @@
 
 #!/bin/bash
 echo "Running DB scripts..."
-for dbscript in /home/ubuntu/$1/dbScripts/*.sql
+
+mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < /home/ubuntu/dbScripts/MySQL/mysql.sql
+
+for userdbscript in /home/ubuntu/dbScripts/MySQL/userManager/*.sql
   do
-   echo "Executing script: $dbscript ..."
-   mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $dbscript
+   echo "Executing script: $userdbscript ..."
+   mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $userdbscript
+ done
+
+for regdbscript in /home/ubuntu/dbScripts/MySQL/identity/*.sql
+  do
+   echo "Executing script: $regdbscript ..."
+   mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $regdbscript
  done
 

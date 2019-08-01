@@ -34,6 +34,7 @@ Metadata:
         Parameters:
           - DBUsername
           - DBPassword
+          - DBType
       - Label:
           default: WSO2 Credentials
         Parameters:
@@ -47,7 +48,6 @@ Metadata:
           - GITREPOARTIFACTS
           - GITREPOCF
           - GITREPOPUPPET
-          - JDKVersion
           - Email
     ParameterLabels:
       AWSAccessKeyId:
@@ -68,6 +68,8 @@ Metadata:
         default: Username
       DBPassword:
         default: Password
+      DBType:
+        default: Database Type
       GITREPOARTIFACTS:
         default: Artifacts Repository (git)
       GITREPOCF:
@@ -78,8 +80,6 @@ Metadata:
         default: Product Name
       DeploymentPattern:
         default: Deployment Pattern
-      JDKVersion:
-        default: JDK Version
       Email:
         default: Email
 Parameters:
@@ -128,18 +128,12 @@ Parameters:
     Default: ""
   DBUsername:
     Type: String
-    # MinLength: 4
-    # AllowedPattern: '[A-Za-z0-9\-]+'
   DBPassword:
     Type: String
-    # MinLength: 8
     NoEcho: true
-  JDKVersion:
+  DBType:
     Type: String
-    Default: ORACLE_JDK_8
-    AllowedValues:
-      - OPEN_JDK_8
-      - ORACLE_JDK_8
+    Default: MySQL
   GITREPOARTIFACTS:
     Type: String
   GITREPOCF:
@@ -213,7 +207,7 @@ Resources:
           sed -i "s/VAL6/${CertificateName}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL7/${DBUsername}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL8/${DBPassword}/g" /home/jenkins/jenkins_env
-          sed -i "s/VAL9/${JDKVersion}/g" /home/jenkins/jenkins_env
+          sed -i "s/VAL9/${DBType}/g" /home/jenkins/jenkins_env
           sed -i "s/VALX/${ProductName}/g" /home/jenkins/jenkins_env
           sed -i "s/VALY/${DeploymentPattern}/g" /home/jenkins/jenkins_env
           sed -i "s/VALZ/${Email}/g" /home/jenkins/jenkins_env
@@ -266,5 +260,5 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      EI: ami-0fc4a03008c80bb4e
+      EI: ami-078c1540dcafe6f4a
       IS: ami-0484af2df9a89d62d

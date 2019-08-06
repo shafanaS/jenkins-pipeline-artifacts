@@ -25,7 +25,7 @@ for userdbscript in /home/ubuntu/dbScripts/MySQL/userManager/*.sql
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $userdbscript
  done
 
-for regdbscript in /home/ubuntu/dbScripts/MySQL/identity/*.sql
+for regdbscript in /home/ubuntu/dbScripts/MySQL/registry/*.sql
   do
    echo "Executing script: $regdbscript ..."
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $regdbscript

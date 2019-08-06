@@ -37,8 +37,7 @@ echo "Installing maven"
 sudo apt install -q -y maven
 echo "Copying $product-$version ..."
 cp /tmp/$product-$version.zip /home/ubuntu/
-cp /tmp/jdk-8u144-linux-x64.tar.gz /opt
-cp /tmp/jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz /opt
+cp /tmp/OpenJDK8U-jdk_8u222_linux_x64.tar.gz /opt
 mkdir /home/ubuntu/endpointCars
 cp /tmp/*_staging*.car /home/ubuntu/endpointCars
 cp /tmp/*_production*.car /home/ubuntu/endpointCars

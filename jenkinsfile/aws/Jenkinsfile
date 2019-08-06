@@ -132,6 +132,18 @@ node(NODE_MASTER) {
             }
         }
 
+         stage('APPROVE_PRODUCTION') {
+            env.IS_APPROVED = input(
+            id: "APPROVE_TO_PRODUCTION",
+            message: "Do you want to proceed to deploy in Production?",
+            ok: "True",
+            parameters:[booleanParam(defaultValue:true, name: 'Approve', description: 'Deploy to Production?')])
+            if (env.IS_APPROVED != 'true') {
+                 currentBuild.result = "ABORTED"
+                 echo "Approval to deploy in production was Declined."
+            }
+         }
+
         stage(Constants.Stages.DEPLOY_PRODUCTION) {
             log.info "Deploying to Production"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
@@ -157,7 +169,6 @@ node(NODE_MASTER) {
             dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
                 executeTests "${TEST_SCRIPT}"
             }
-
         }
     } catch (exc) {
         log.err "Caught: ${exc}"

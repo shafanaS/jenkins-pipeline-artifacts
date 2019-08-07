@@ -28,13 +28,14 @@ sudo rm  /var/lib/dpkg/lock-frontend
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
-sudo apt install unzip
+echo "Installing unzip"
+sudo apt install unzip  &> apt.log
 echo "Installing mysql-client"
-sudo apt-get install -q -y mysql-client
+sudo apt-get install -q -y mysql-client &>> apt.log
 echo "Installing pip"
-sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip
+sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip &>> apt.log
 echo "Installing maven"
-sudo apt install -q -y maven
+sudo apt install -q -y maven &>> apt.log
 echo "Copying $product-$version ..."
 cp /tmp/$product-$version.zip /home/ubuntu/
 cp /tmp/OpenJDK8U-jdk_8u222_linux_x64.tar.gz /opt

@@ -132,7 +132,7 @@ node(NODE_MASTER) {
             }
         }
 
-         stage('APPROVE_PRODUCTION') {
+         stage('Constants.Stages.APPROVE_PRODUCTION') {
             env.IS_APPROVED = input(
             id: "APPROVE_TO_PRODUCTION",
             message: "Do you want to proceed to deploy in Production?",

@@ -32,7 +32,7 @@ node(NODE_MASTER) {
     //Constants
     def WUM_CREDS = 'wum_creds'
     def AWS_CREDS = 'aws_creds'
-    def BASE_IMAGE = "ami-09f144546aca6bdb4"
+    def BASE_IMAGE = "ami-04e45b478318a1736"
     //Test Endpoint
     def TEST_ENDPOINT_KEY = "ESBHttpUrl"
     //Directories
@@ -132,7 +132,7 @@ node(NODE_MASTER) {
             }
         }
 
-         stage('APPROVE_PRODUCTION') {
+         stage(Constants.Stages.APPROVE_PRODUCTION) {
             env.IS_APPROVED = input(
             id: "APPROVE_TO_PRODUCTION",
             message: "Do you want to proceed to deploy in Production?",

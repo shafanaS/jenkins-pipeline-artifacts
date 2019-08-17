@@ -36,24 +36,28 @@ echo "Installing pip"
 sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip &>> apt.log
 echo "Installing maven"
 sudo apt install -q -y maven &>> apt.log
+
+sudo su - wso2
 echo "Copying $product-$version ..."
-cp /tmp/$product-$version.zip /home/ubuntu/
+cp /tmp/$product-$version.zip /home/wso2/
 cp /tmp/OpenJDK8U-jdk_8u222_linux_x64.tar.gz /opt
-mkdir /home/ubuntu/endpointCars
-cp /tmp/*_staging*.car /home/ubuntu/endpointCars
-cp /tmp/*_production*.car /home/ubuntu/endpointCars
+
+mkdir /home/wso2/endpointCars
+cp /tmp/*_staging*.car /home/wso2/endpointCars
+cp /tmp/*_production*.car /home/wso2/endpointCars
 
 mkdir /usr/local/bin/bashScripts
 cp -r /tmp/util/bashScripts/$dbType/ /usr/local/bin/bashScripts/
 
-mkdir /home/ubuntu/dbScripts
-cp -r /tmp/util/dbScripts/$product/$version/$deploymentPattern/$dbType/ /home/ubuntu/dbScripts/
-chmod -R +x /home/ubuntu/dbScripts
+mkdir /home/wso2/dbScripts
+cp -r /tmp/util/dbScripts/$product/$version/$deploymentPattern/$dbType/ /home/wso2/dbScripts/
+chmod -R +x /home/wso2/dbScripts
 chmod -R +x /usr/local/bin/bashScripts
 
 echo "Copying sysctl.conf ..."
 sudo cp /tmp/conf/sysctl.conf /etc/sysctl.conf -v
 echo "Copying limits.conf ..."
 sudo cp /tmp/conf/limits.conf /etc/security/limits.conf  -v
+
 echo 'export HISTTIMEFORMAT="%F %T "' >> /etc/profile.d/history.sh
 cat /dev/null > ~/.bash_history && history -c

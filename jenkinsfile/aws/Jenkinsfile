@@ -133,14 +133,17 @@ node(NODE_MASTER) {
         }
 
          stage(Constants.Stages.APPROVE_PRODUCTION) {
-            env.IS_APPROVED = input(
-            id: "APPROVE_TO_PRODUCTION",
-            message: "Do you want to proceed to deploy in Production?",
-            ok: "True",
-            parameters:[booleanParam(defaultValue:true, name: 'Approve', description: 'Deploy to Production?')])
-            if (env.IS_APPROVED != 'true') {
-                 currentBuild.result = "ABORTED"
-                 echo "Approval to deploy in production was Declined."
+            env.IS_APPROVED = false
+            timeout(time:5, unit:'DAYS') {
+                env.IS_APPROVED = input(
+                id: "APPROVE_TO_PRODUCTION",
+                message: "Do you want to proceed to deploy in Production?",
+                ok: "True",
+                parameters:[booleanParam(defaultValue:true, name: 'Approve', description: 'Deploy to Production?')])
+                if (env.IS_APPROVED != 'true') {
+                    currentBuild.result = "ABORTED"
+                    echo "Approval to deploy in production was Declined."
+                }
             }
          }
 

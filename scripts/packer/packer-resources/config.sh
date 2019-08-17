@@ -38,7 +38,7 @@ echo "Installing maven"
 sudo apt install -q -y maven &>> apt.log
 
 sudo sed -i "s|PRODUCT|${product}|g" /etc/filebeat/filebeat.yml
-sudo sed -i 's|VERSION|${version}|g' /etc/filebeat/filebeat.yml
+sudo sed -i "s|VERSION|${version}|g" /etc/filebeat/filebeat.yml
 
 sudo su - wso2
 echo "Copying $product-$version ..."

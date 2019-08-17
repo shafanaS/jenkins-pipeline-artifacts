@@ -37,6 +37,9 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip &>> apt.log
 echo "Installing maven"
 sudo apt install -q -y maven &>> apt.log
 
+sudo sed -i 's|PRODUCT|${product}|g' /etc/filebeat/filebeat.yml
+sudo sed -i 's|VERSION|${product}|g' /etc/filebeat/filebeat.yml
+
 sudo su - wso2
 echo "Copying $product-$version ..."
 cp /tmp/$product-$version.zip /home/wso2/
@@ -47,7 +50,7 @@ cp /tmp/*_staging*.car /home/wso2/endpointCars
 cp /tmp/*_production*.car /home/wso2/endpointCars
 
 mkdir /usr/local/bin/bashScripts
-cp -r /tmp/util/bashScripts/$dbType/ /usr/local/bin/bashScripts/
+cp -r /tmp/util/bashScripts/$product/$version/$deploymentPattern/$dbType/ /usr/local/bin/bashScripts/
 
 mkdir /home/wso2/dbScripts
 cp -r /tmp/util/dbScripts/$product/$version/$deploymentPattern/$dbType/ /home/wso2/dbScripts/

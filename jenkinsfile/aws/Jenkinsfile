@@ -57,7 +57,7 @@ node(NODE_MASTER) {
     def PACKER_JSON = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer.json"
     def AWS_CREDS_LOC = '/home/ubuntu/.aws/credentials'
     //repos
-    def GIT_REPO_RESOURCES = 'https://github.com/ShafanaSafwan/jenkins-pipeline-artifacts'
+    def GIT_REPO_RESOURCES = 'https://github.com/wso2-incubator/jenkins-pipeline-artifacts'
     //mvn remove download logs
     def REMOVE_LOGS = 'org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
 
@@ -134,7 +134,7 @@ node(NODE_MASTER) {
 
          stage(Constants.Stages.APPROVE_PRODUCTION) {
             env.IS_APPROVED = false
-            timeout(time:5, unit:'DAYS') {
+            timeout(time:10, unit:'MINUTES') {
                 env.IS_APPROVED = input(
                 id: "APPROVE_TO_PRODUCTION",
                 message: "Do you want to proceed to deploy in Production?",

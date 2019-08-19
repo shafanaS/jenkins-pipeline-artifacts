@@ -69,7 +69,7 @@ if [ ${PRODUCT} = "wso2ei" ] ; then
     DEPLOYMENT_PATTERN="ei"
 else
     if [ ${PRODUCT} = "wso2is" ] ; then
-        $DEPLOYMENT_PATTERN="is"
+        DEPLOYMENT_PATTERN="is"
     fi
 fi
 

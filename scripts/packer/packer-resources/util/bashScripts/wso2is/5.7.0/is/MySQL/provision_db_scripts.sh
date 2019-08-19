@@ -17,21 +17,21 @@
 #!/bin/bash
 echo "Running DB scripts..."
 
-mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < /home/wso2/dbScripts/MySQL/mysql.sql
+mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < /home/wso2user/dbScripts/MySQL/mysql.sql
 
-for userdbscript in /home/wso2/dbScripts/MySQL/userManager/*.sql
+for userdbscript in /home/wso2user/dbScripts/MySQL/userManager/*.sql
   do
    echo "Executing script: $userdbscript ..."
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $userdbscript
  done
 
-for regdbscript in /home/wso2/dbScripts/MySQL/registry/*.sql
+for regdbscript in /home/wso2user/dbScripts/MySQL/registry/*.sql
   do
    echo "Executing script: $regdbscript ..."
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $regdbscript
  done
 
-for identitydbscript in /home/wso2/dbScripts/MySQL/identity/*.sql
+for identitydbscript in /home/wso2user/dbScripts/MySQL/identity/*.sql
   do
    echo "Executing script: $regdbscript ..."
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < identitydbscript

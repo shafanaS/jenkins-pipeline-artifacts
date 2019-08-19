@@ -25,7 +25,6 @@ node(NODE_MASTER) {
     def PRODUCT = "${params.PRODUCT}"
     def VERSION = "${params.VERSION}"
     def DEPLOYMENT_PATTERN = "${env.DEPLOYMENT_PATTERN}"
-    def DBTYPE = "${env.DBTYPE}"
     //Stacks
     def STACK_STAGING = "staging-stack"
     def STACK_PROD = "prod-stack"
@@ -107,6 +106,7 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
+            def STAGING_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf-staging.yaml"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
                        product         : "${PRODUCT}",
                        version         : "${VERSION}",
@@ -149,6 +149,7 @@ node(NODE_MASTER) {
 
         stage(Constants.Stages.DEPLOY_PRODUCTION) {
             log.info "Deploying to Production"
+            def PROD_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf.yaml"
             env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
                        product         : "${PRODUCT}",
                        version         : "${VERSION}",

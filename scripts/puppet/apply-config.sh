@@ -64,6 +64,15 @@ FAILED_RM_UNZIP=16
 FAILED_ARTIFACT_APPLY=17
 FAILED_WUM_INIT=18
 
+#Specify deployment directory
+if [ ${PRODUCT} = "wso2ei" ] ; then
+    DEPLOYMENT_PATTERN="ei"
+else
+    if [ ${PRODUCT} = "wso2is" ] ; then
+        $DEPLOYMENT_PATTERN="is"
+    fi
+fi
+
 #init WUM
 ${WUM} init -u ${WUM_USER} -p ${WUM_PASSWORD} -v &>> wum.log
 if [ $? -eq 1 ] ; then

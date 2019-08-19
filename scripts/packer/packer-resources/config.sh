@@ -40,7 +40,7 @@ sudo apt install -q -y maven &>> apt.log
 sudo sed -i "s|PRODUCT|${product}|g" /etc/filebeat/filebeat.yml
 sudo sed -i "s|VERSION|${version}|g" /etc/filebeat/filebeat.yml
 
-sudo su - wso2
+sudo su - wso2user
 echo "Copying $product-$version ..."
 cp /tmp/$product-$version.zip /home/wso2/
 cp /tmp/OpenJDK8U-jdk_8u222_linux_x64.tar.gz /opt

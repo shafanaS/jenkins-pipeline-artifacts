@@ -42,19 +42,19 @@ sudo sed -i "s|VERSION|${version}|g" /etc/filebeat/filebeat.yml
 
 sudo su - wso2user
 echo "Copying $product-$version ..."
-cp /tmp/$product-$version.zip /home/wso2/
+cp /tmp/$product-$version.zip /home/wso2user/
 cp /tmp/OpenJDK8U-jdk_8u222_linux_x64.tar.gz /opt
 
-mkdir /home/wso2/endpointCars
-cp /tmp/*_staging*.car /home/wso2/endpointCars
-cp /tmp/*_production*.car /home/wso2/endpointCars
+mkdir /home/wso2user/endpointCars
+cp /tmp/*_staging*.car /home/wso2user/endpointCars
+cp /tmp/*_production*.car /home/wso2user/endpointCars
 
 mkdir /usr/local/bin/bashScripts
 cp -r /tmp/util/bashScripts/$product/$version/$deploymentPattern/$dbType/ /usr/local/bin/bashScripts/
 
-mkdir /home/wso2/dbScripts
-cp -r /tmp/util/dbScripts/$product/$version/$deploymentPattern/$dbType/ /home/wso2/dbScripts/
-chmod -R +x /home/wso2/dbScripts
+mkdir /home/wso2user/dbScripts
+cp -r /tmp/util/dbScripts/$product/$version/$deploymentPattern/$dbType/ /home/wso2user/dbScripts/
+chmod -R +x /home/wso2user/dbScripts
 chmod -R +x /usr/local/bin/bashScripts
 
 echo "Copying sysctl.conf ..."

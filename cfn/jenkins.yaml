@@ -41,10 +41,19 @@ Metadata:
           - WUMUsername
           - WUMPassword
       - Label:
-          default: Other Parameters
+          default: GitHub Credentials
+        Parameters:
+          - GitHubUsername
+          - GitHubPassword
+          - GitHubHookRepository
+      - Label:
+          default: Product Configuration
         Parameters:
           - ProductName
           - DeploymentPattern
+      - Label:
+          default: Other Parameters
+        Parameters:
           - GITREPOARTIFACTS
           - GITREPOCF
           - GITREPOPUPPET
@@ -58,10 +67,16 @@ Metadata:
         default: SSL Certificate Name
       KeyPairName:
         default: Key Pair Name
-      WUMUsername:
+      GitHubUsername:
         default: Username
-      WUMPassword:
+      GitHubPassword:
         default: Password
+      GitHubHookRepository:
+        default: Git Hook Repository Name
+      WUMUsername:
+        Default: Username
+      WUMPassword:
+        Default: Password
       WSO2InstanceType:
         default: Instance Type
       DBUsername:
@@ -79,7 +94,7 @@ Metadata:
       ProductName:
         default: Product Name
       DeploymentPattern:
-        default: Deployment Pattern
+        default: Product Deployment Pattern
       Email:
         default: Email
 Parameters:
@@ -88,13 +103,11 @@ Parameters:
   AWSAccessKeySecret:
     Type: String
   KeyPairName:
-    Description: >-
-      The private key used to log in to instances through SSH
+    Description: The private key used to log in to instances through SSH
     Type: 'AWS::EC2::KeyPair::KeyName'
   CertificateName:
     Description: A valid SSL certificate used for HTTPS
     Type: String
-    # MinLength: 1
   WSO2InstanceType:
     Type: String
     Default: t2.medium
@@ -112,20 +125,30 @@ Parameters:
   ProductName:
     Type: String
     AllowedValues:
-      - EI
-      - IS
+      - wso2ei
+      - wso2is
   DeploymentPattern:
     Type: String
     AllowedValues:
       - ei_integrator
       - is
+  GitHubUsername:
+    Type: String
+    Default: ""
+  GitHubPassword:
+    Type: String
+    Default: ""
+    NoEcho: true
+  GitHubHookRepository:
+    Type: String
+    Default: cicd-test-artifacts
+  WUMUsername:
+    Type: String
+    Default: ""
   WUMPassword:
     Type: String
     Default: ""
     NoEcho: true
-  WUMUsername:
-    Type: String
-    Default: ""
   DBUsername:
     Type: String
   DBPassword:
@@ -135,12 +158,15 @@ Parameters:
     Type: String
     Default: MySQL
   GITREPOARTIFACTS:
+    Default: https://github.com/wso2-incubator/cicd-test-artifacts.git
     Type: String
   GITREPOCF:
+    Default: https://github.com/wso2-incubator/cicd-deployment-scripts.git
     Type: String
   GITREPOPUPPET:
     Type: String
   Email:
+    Description: A valid email address to receive notifications on pipeline
     Type: String
 Resources:
   # networking configurations
@@ -219,11 +245,14 @@ Resources:
           sed -i "s/VAL/$publichostname/g" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
           service jenkins start
 
+          export jenkinshookurl=http://$publichostname:8080/github-webhook/
+          export githubhookurl=https://api.github.com/repos/${GitHubUsername}/${GitHubHookRepository}/hooks
           sleep 60 # wait for 1 of the second before check again
           export JENKINS_CRUMB=$(curl -s 'http://admin:admin@localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
           echo $JENKINS_CRUMB >> /home/ubuntu/log.txt
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"wum_creds","username":"${WUMUsername}","password": "${WUMPassword}","description": "WUM Credentials","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"aws_creds","accessKey":"${AWSAccessKeyId}","secretKey": "${AWSAccessKeySecret}","description": "AWS Credentials","$class": "com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
+          bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl
 
   JenkinsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
@@ -260,5 +289,5 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      EI: ami-09b2052af8b647ed2
-      IS: ami-0b1a37eb8fb656d4e
+      wso2ei: ami-066adb897bc5cdc17
+      wso2is: ami-0c8c29f5ad4e198ce

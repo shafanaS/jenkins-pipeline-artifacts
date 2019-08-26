@@ -131,7 +131,7 @@ if $INITIAL_RUN; then
         echo "Download the GA pack from S3 bucket..." &>> wum.log
         wget https://s3.amazonaws.com/aws-cicd-product-packs/${PRODUCT}-${PRODUCT_VERSION}.zip -P ${WORKING_DIRECTORY}/${PACK_DIRECTORY}/
         if [ $? -eq 1 ] ; then
-            exit ${FAILED_WUM_ADD}
+            exit ${FAILED_DOWNLOAD_PACK}
         fi
     fi
 

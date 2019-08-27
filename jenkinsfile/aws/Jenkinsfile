@@ -127,7 +127,7 @@ node(NODE_MASTER) {
         stage(Constants.Stages.RUNNING_TESTS) {
             log.info "Running Test"
             def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
-            dir("${ARTIFACTS_DIR}/tests/sample-scenario-tests") {
+            dir("${ARTIFACTS_DIR}/tests/${PRODUCT}") {
                 executeTests "${TEST_SCRIPT}"
             }
         }

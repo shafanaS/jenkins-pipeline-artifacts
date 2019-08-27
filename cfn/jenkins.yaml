@@ -141,7 +141,7 @@ Parameters:
     NoEcho: true
   GitHubHookRepository:
     Type: String
-    Default: cicd-test-artifacts
+    Default: ""
   WUMUsername:
     Type: String
     Default: ""
@@ -289,5 +289,8 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      wso2ei: ami-066adb897bc5cdc17
-      wso2is: ami-0c8c29f5ad4e198ce
+      wso2ei: ami-06ddc29690248d464
+      wso2is: ami-023431dce70def62e
+    us-east-2:
+      wso2ei: ami-0149eccc437898f9c
+      wso2is: ami-045714ca17bafaa2f

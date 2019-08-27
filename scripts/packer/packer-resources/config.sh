@@ -24,18 +24,17 @@ deploymentPattern=$3
 dbType=$4
 
 ################################################ WSO2 Product ####################################################
+sudo apt-get update
 sudo rm  /var/lib/dpkg/lock-frontend
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock
 echo "Installing unzip"
-sudo apt install unzip  &> apt.log
+sudo apt install unzip  &>> /home/wso2user/apt.log
 echo "Installing mysql-client"
-sudo apt-get install -q -y mysql-client &>> apt.log
+sudo apt-get install -q -y mysql-client &>> /home/wso2user/apt.log
 echo "Installing pip"
-sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip &>> apt.log
-echo "Installing maven"
-sudo apt install -q -y maven &>> apt.log
+sudo DEBIAN_FRONTEND=noninteractive apt install -q -y python-pip &>> /home/wso2user/apt.log
 
 sudo sed -i "s|PRODUCT|${product}|g" /etc/filebeat/filebeat.yml
 sudo sed -i "s|VERSION|${version}|g" /etc/filebeat/filebeat.yml

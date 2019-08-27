@@ -31,7 +31,6 @@ node(NODE_MASTER) {
     //Constants
     def WUM_CREDS = 'wum_creds'
     def AWS_CREDS = 'aws_creds'
-    def BASE_IMAGE = "ami-049bebdd9576c4b6b"
     //Test Endpoint
     def TEST_ENDPOINT_KEY = "ESBHttpUrl"
     //Directories
@@ -98,7 +97,6 @@ node(NODE_MASTER) {
                                        dbType           : "${env.DBType}",
                                        region           : "${REGION}",
                                        packerJson       : "${PACKER_JSON}",
-                                       image            : "${BASE_IMAGE}",
                                        packerManifest   : "${PACKER_MANIFEST}",
                                        awsCredsFile     : "${AWS_CREDS_LOC}",
                                        imageResources   : "${IMAGE_RESOURCES_LOC}"])

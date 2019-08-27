@@ -15,7 +15,6 @@
       "secret_key": "{{user `aws_secret_key`}}",
       "region":"{{user `region`}}",
       "associate_public_ip_address": true,
-      "source_ami": "{{user `base_ami`}}",
       "instance_type": "m4.xlarge",
       "ssh_username": "ubuntu",
       "ami_name": "WSO2-CICD-UBUNTU-IMAGE-{{timestamp}}",

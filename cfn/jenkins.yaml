@@ -222,7 +222,25 @@ Resources:
             - !Ref JenkinsSecurityGroup
       UserData: !Base64
         'Fn::Sub': |
-          #cloud-boothook
+          Content-Type: multipart/mixed; boundary="//"
+          MIME-Version: 1.0
+
+          --//
+          Content-Type: text/cloud-config; charset="us-ascii"
+          MIME-Version: 1.0
+          Content-Transfer-Encoding: 7bit
+          Content-Disposition: attachment; filename="cloud-config.txt"
+
+          #cloud-config
+          cloud_final_modules:
+          - [scripts-user, always]
+
+          --//
+          Content-Type: text/x-shellscript; charset="us-ascii"
+          MIME-Version: 1.0
+          Content-Transfer-Encoding: 7bit
+          Content-Disposition: attachment; filename="userdata.txt"
+
           #!/bin/bash
           export PATH=~/.local/bin:$PATH
           sed -i "s|VAL1|${GITREPOARTIFACTS}|g" /home/jenkins/jenkins_env
@@ -247,7 +265,7 @@ Resources:
 
           export jenkinshookurl=http://$publichostname:8080/github-webhook/
           export githubhookurl=https://api.github.com/repos/${GitHubUsername}/${GitHubHookRepository}/hooks
-          sleep 60 # wait for 1 of the second before check again
+          sleep 120
           export JENKINS_CRUMB=$(curl -s 'http://admin:admin@localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
           echo $JENKINS_CRUMB >> /home/ubuntu/log.txt
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"wum_creds","username":"${WUMUsername}","password": "${WUMPassword}","description": "WUM Credentials","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
@@ -289,8 +307,8 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      wso2ei: ami-06ddc29690248d464
-      wso2is: ami-023431dce70def62e
+      wso2ei: ami-0baf234db153deadc
+      wso2is: ami-02daf9089702e42a9
     us-east-2:
-      wso2ei: ami-0149eccc437898f9c
-      wso2is: ami-045714ca17bafaa2f
+      wso2ei: ami-08430659b68e32d96
+      wso2is: ami-05ca75c1d027b064d

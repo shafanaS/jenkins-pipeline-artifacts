@@ -127,11 +127,13 @@ Parameters:
     AllowedValues:
       - wso2ei
       - wso2is
+      - wso2am
   DeploymentPattern:
     Type: String
     AllowedValues:
       - ei_integrator
       - is
+      - apim
   GitHubUsername:
     Type: String
     Default: ""

@@ -74,9 +74,9 @@ Metadata:
       GitHubHookRepository:
         default: Git Hook Repository Name
       WUMUsername:
-        Default: Username
+        default: Username
       WUMPassword:
-        Default: Password
+        default: Password
       WSO2InstanceType:
         default: Instance Type
       DBUsername:
@@ -137,17 +137,14 @@ Parameters:
     Default: ""
   GitHubPassword:
     Type: String
-    Default: ""
     NoEcho: true
   GitHubHookRepository:
     Type: String
-    Default: ""
   WUMUsername:
     Type: String
     Default: ""
   WUMPassword:
     Type: String
-    Default: ""
     NoEcho: true
   DBUsername:
     Type: String
@@ -158,10 +155,8 @@ Parameters:
     Type: String
     Default: MySQL
   GITREPOARTIFACTS:
-    Default: https://github.com/wso2-incubator/cicd-test-artifacts.git
     Type: String
   GITREPOCF:
-    Default: https://github.com/wso2-incubator/cicd-deployment-scripts.git
     Type: String
   GITREPOPUPPET:
     Type: String
@@ -302,13 +297,19 @@ Resources:
         - !GetAZs ''
 Outputs:
   JenkinsManagementConsoleURL:
-    Value: !Sub '${WSO2JenkinsInstance.PublicDnsName}:8080/'
+    Value: !Sub '${WSO2JenkinsInstance.PublicDnsName}:8080//blue/pipelines'
     Description: Jenkins Management Console URL
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
       wso2ei: ami-0baf234db153deadc
       wso2is: ami-02daf9089702e42a9
+      wso2am: ami-05145ba4ce225956a
     us-east-2:
       wso2ei: ami-08430659b68e32d96
       wso2is: ami-05ca75c1d027b064d
+      wso2am: ami-0c2a1773c6cca1052
+    us-west-1:
+      wso2ei: ami-0544afa7884b58966
+      wso2is: ami-084fb27cc6e09852e
+      wso2am: ami-0a5aa7c379505c225

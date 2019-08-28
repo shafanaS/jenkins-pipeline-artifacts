@@ -24,8 +24,14 @@ deploymentPattern=$3
 dbType=$4
 
 ################################################ WSO2 Product ####################################################
-sudo apt-get update
+sudo rm /var/lib/apt/lists/
 sudo rm  /var/lib/dpkg/lock-frontend
+sudo rm /var/lib/apt/lists/lock
+sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock
+sudo apt-get update
+sudo rm /var/lib/apt/lists/
+sudo rm /var/lib/dpkg/lock-frontend
 sudo rm /var/lib/apt/lists/lock
 sudo rm /var/cache/apt/archives/lock
 sudo rm /var/lib/dpkg/lock

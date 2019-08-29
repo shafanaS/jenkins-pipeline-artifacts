@@ -100,14 +100,22 @@ Metadata:
 Parameters:
   AWSAccessKeyId:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   AWSAccessKeySecret:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   KeyPairName:
     Description: The private key used to log in to instances through SSH
     Type: 'AWS::EC2::KeyPair::KeyName'
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   CertificateName:
     Description: A valid SSL certificate used for HTTPS
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   WSO2InstanceType:
     Type: String
     Default: t2.medium
@@ -124,16 +132,20 @@ Parameters:
     ConstraintDescription: Must be a valid EC2 instance type
   ProductName:
     Type: String
+    AllowedPattern: '.+'
     AllowedValues:
       - wso2ei
       - wso2is
       - wso2am
+    ConstraintDescription: Mandatory field
   DeploymentPattern:
     Type: String
+    AllowedPattern: '.+'
     AllowedValues:
       - ei_integrator
       - is
       - apim
+    ConstraintDescription: Mandatory field
   GitHubUsername:
     Type: String
     Default: ""
@@ -150,21 +162,33 @@ Parameters:
     NoEcho: true
   DBUsername:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   DBPassword:
     Type: String
     NoEcho: true
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   DBType:
     Type: String
     Default: MySQL
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   GITREPOARTIFACTS:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   GITREPOCF:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   GITREPOPUPPET:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
   Email:
-    Description: A valid email address to receive notifications on pipeline
     Type: String
+    Description: A valid email address to receive notifications on pipeline
 Resources:
   # networking configurations
   WSO2EIPublicInternetGateway:

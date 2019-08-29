@@ -136,8 +136,8 @@ node(NODE_MASTER) {
                 env.IS_APPROVED = input(
                 id: "APPROVE_TO_PRODUCTION",
                 message: "Do you want to proceed to deploy in Production?",
-                ok: "True",
-                parameters:[booleanParam(defaultValue:true, name: 'Approve', description: 'Deploy to Production?')])
+                ok: "OK",
+                parameters:[booleanParam(defaultValue:false, name: 'Approve', description: 'Deploy to Production?')])
                 if (env.IS_APPROVED != 'true') {
                     currentBuild.result = "ABORTED"
                     echo "Approval to deploy in production was Declined."

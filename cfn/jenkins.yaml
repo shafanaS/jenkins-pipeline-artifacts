@@ -299,7 +299,7 @@ Resources:
         - !GetAZs ''
 Outputs:
   JenkinsManagementConsoleURL:
-    Value: !Sub '${WSO2JenkinsInstance.PublicDnsName}:8080//blue/pipelines'
+    Value: !Sub '${WSO2JenkinsInstance.PublicDnsName}:8080/blue/pipelines'
     Description: Jenkins Management Console URL
 Mappings:
   WSO2UbuntuAMIRegionMap:

@@ -25,6 +25,8 @@ node(NODE_MASTER) {
     def PRODUCT = "${params.PRODUCT}"
     def VERSION = "${params.VERSION}"
     def DEPLOYMENT_PATTERN = "${env.DEPLOYMENT_PATTERN}"
+    def PROD = "prod"
+    def STAGING = "staging"
     //Stacks
     def STACK_STAGING = "staging-stack"
     def STACK_PROD = "prod-stack"
@@ -116,10 +118,11 @@ node(NODE_MASTER) {
                        amiID           : "${env.IMAGE_ID}",
                        credID          : "${AWS_CREDS}",
                        region          : "${env.REGION}",
-                       environment     : "${STACK_STAGING}",
+                       stackName       : "${STACK_STAGING}",
                        cf              : "${STAGING_CF}",
                        testEndpoint    : "${TEST_ENDPOINT_KEY}",
-                       awsCredsFile    : "${AWS_CREDS_LOC}"])
+                       awsCredsFile    : "${AWS_CREDS_LOC}",
+                       environment     : "${STAGING}"])
         }
 
         stage(Constants.Stages.RUNNING_TESTS) {
@@ -159,10 +162,11 @@ node(NODE_MASTER) {
                        amiID           : "${env.IMAGE_ID}",
                        credID          : "${AWS_CREDS}",
                        region          : "${env.REGION}",
-                       environment     : "${STACK_PROD}",
+                       stackName       : "${STACK_PROD}",
                        cf              : "${PROD_CF}",
                        testEndpoint    : "${TEST_ENDPOINT_KEY}",
-                       awsCredsFile    : "${AWS_CREDS_LOC}"])
+                       awsCredsFile    : "${AWS_CREDS_LOC}",
+                       environment     : "${PROD}"])
         }
 
         stage(Constants.Stages.RUNNING_TESTS) {

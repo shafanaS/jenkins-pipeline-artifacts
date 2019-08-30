@@ -198,13 +198,13 @@ Resources:
   WSO2EIPublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !Ref TESTVPC
+      VpcId: !Ref JENKINSVPC
 
   WSO2EIPublicSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
       RouteTableId: !Ref WSO2EIPublicRouteTable
-      SubnetId: !Ref TestSubnet1
+      SubnetId: !Ref JenkinsSubnet1
 
   WSO2EIPublicRoute:
     Type: 'AWS::EC2::Route'
@@ -218,7 +218,7 @@ Resources:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
       InternetGatewayId: !Ref WSO2EIPublicInternetGateway
-      VpcId: !Ref TESTVPC
+      VpcId: !Ref JENKINSVPC
   WSO2JenkinsInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -239,7 +239,7 @@ Resources:
           AssociatePublicIpAddress : 'true'
           Description: Primary network interface
           DeviceIndex: 0
-          SubnetId: !Ref TestSubnet1
+          SubnetId: !Ref JenkinsSubnet1
           GroupSet:
             - !Ref JenkinsSecurityGroup
       UserData: !Base64
@@ -292,12 +292,12 @@ Resources:
           echo $JENKINS_CRUMB >> /home/ubuntu/log.txt
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"wum_creds","username":"${WUMUsername}","password": "${WUMPassword}","description": "WUM Credentials","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"aws_creds","accessKey":"${AWSAccessKeyId}","secretKey": "${AWSAccessKeySecret}","description": "AWS Credentials","$class": "com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
-          bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl
+          bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl >> /home/ubuntu/text.txt
 
   JenkinsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref TESTVPC
+      VpcId: !Ref JENKINSVPC
       GroupDescription: WSO2 Jenkins node Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -305,19 +305,28 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: 8080
-          ToPort: 8080
+          FromPort: 443
+          ToPort: 443
           CidrIp: 0.0.0.0/0
-  TESTVPC:
+  JenkinsLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: jenkins
+      Scheme: internet-facing
+      Subnets:
+        - !Ref JenkinsSubnet1
+      SecurityGroups:
+        - !Ref JenkinsSecurityGroup
+  JENKINSVPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
-  TestSubnet1:
+  JenkinsSubnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref TESTVPC
+      VpcId: !Ref JENKINSVPC
       CidrBlock: 10.0.254.0/24
       AvailabilityZone: !Select
         - '0'

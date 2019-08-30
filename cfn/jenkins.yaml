@@ -157,6 +157,7 @@ Parameters:
   WUMUsername:
     Type: String
     Default: ""
+    Description: A valid WSO2 subscription to receive updates
   WUMPassword:
     Type: String
     NoEcho: true

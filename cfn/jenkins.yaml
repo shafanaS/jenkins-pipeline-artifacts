@@ -36,7 +36,7 @@ Metadata:
           - DBPassword
           - DBType
       - Label:
-          default: WSO2 Credentials
+          default: WSO2 Subscription Credentials
         Parameters:
           - WUMUsername
           - WUMPassword
@@ -192,33 +192,32 @@ Parameters:
     Description: A valid email address to receive notifications on pipeline
 Resources:
   # networking configurations
-  WSO2EIPublicInternetGateway:
+  WSO2JenkinsPublicInternetGateway:
     Type: 'AWS::EC2::InternetGateway'
 
-  WSO2EIPublicRouteTable:
+  WSO2JenkinsPublicRouteTable:
     Type: 'AWS::EC2::RouteTable'
     Properties:
-      VpcId: !Ref JENKINSVPC
+      VpcId: !Ref WSO2JENKINSVPC
 
-  WSO2EIPublicSubnet1RouteTableAssociation:
+  WSO2JenkinsPublicSubnet1RouteTableAssociation:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
-      RouteTableId: !Ref WSO2EIPublicRouteTable
-      SubnetId: !Ref JenkinsSubnet1
-
-  WSO2EIPublicRoute:
+      RouteTableId: !Ref WSO2JenkinsPublicRouteTable
+      SubnetId: !Ref WSO2JenkinsSubnet1
+  WSO2JenkinsPublicRoute:
     Type: 'AWS::EC2::Route'
     Properties:
-      RouteTableId: !Ref WSO2EIPublicRouteTable
-      GatewayId: !Ref WSO2EIPublicInternetGateway
+      RouteTableId: !Ref WSO2JenkinsPublicRouteTable
+      GatewayId: !Ref WSO2JenkinsPublicInternetGateway
       DestinationCidrBlock: 0.0.0.0/0
-    DependsOn: WSO2EIVPCInternetGatewayAttachment
+    DependsOn: WSO2JenkinsVPCInternetGatewayAttachment
 
-  WSO2EIVPCInternetGatewayAttachment:
+  WSO2JenkinsVPCInternetGatewayAttachment:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
-      InternetGatewayId: !Ref WSO2EIPublicInternetGateway
-      VpcId: !Ref JENKINSVPC
+      InternetGatewayId: !Ref WSO2JenkinsPublicInternetGateway
+      VpcId: !Ref WSO2JENKINSVPC
   WSO2JenkinsInstance:
     Type: 'AWS::EC2::Instance'
     Properties:
@@ -239,9 +238,9 @@ Resources:
           AssociatePublicIpAddress : 'true'
           Description: Primary network interface
           DeviceIndex: 0
-          SubnetId: !Ref JenkinsSubnet1
+          SubnetId: !Ref WSO2JenkinsSubnet1
           GroupSet:
-            - !Ref JenkinsSecurityGroup
+            - !Ref WSO2JenkinsSecurityGroup
       UserData: !Base64
         'Fn::Sub': |
           Content-Type: multipart/mixed; boundary="//"
@@ -294,10 +293,10 @@ Resources:
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"aws_creds","accessKey":"${AWSAccessKeyId}","secretKey": "${AWSAccessKeySecret}","description": "AWS Credentials","$class": "com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
           bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl >> /home/ubuntu/text.txt
 
-  JenkinsSecurityGroup:
+  WSO2JenkinsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      VpcId: !Ref JENKINSVPC
+      VpcId: !Ref WSO2JENKINSVPC
       GroupDescription: WSO2 Jenkins node Security Group
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -305,19 +304,20 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: 8080
-          ToPort: 8080
+          FromPort: 443
+          ToPort: 443
           CidrIp: 0.0.0.0/0
-  JENKINSVPC:
+
+  WSO2JENKINSVPC:
     Type: 'AWS::EC2::VPC'
     Properties:
       CidrBlock: 10.0.0.0/16
       EnableDnsSupport: true
       EnableDnsHostnames: true
-  JenkinsSubnet1:
+  WSO2JenkinsSubnet1:
     Type: 'AWS::EC2::Subnet'
     Properties:
-      VpcId: !Ref JENKINSVPC
+      VpcId: !Ref WSO2JENKINSVPC
       CidrBlock: 10.0.254.0/24
       AvailabilityZone: !Select
         - '0'

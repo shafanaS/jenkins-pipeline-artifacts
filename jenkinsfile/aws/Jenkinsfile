@@ -105,6 +105,50 @@ node(NODE_MASTER) {
                                        imageResources   : "${IMAGE_RESOURCES_LOC}"])
         }
 
+        stage(Constants.Stages.DEPLOY_DEV) {
+            log.info "Deploying to Development"
+            STAGING_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf-staging.yaml"
+            env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
+                       product         : "${PRODUCT}",
+                       version         : "${VERSION}",
+                       keyPairName     : "${env.KeyPairName}",
+                       certName        : "${env.CertificateName}",
+                       dbUsername      : "${env.DBUsername}",
+                       dbPassword      : "${env.DBPassword}",
+                       dbType          : "${env.DBType}",
+                       amiID           : "${env.IMAGE_ID}",
+                       credID          : "${AWS_CREDS}",
+                       region          : "${env.REGION}",
+                       stackName       : "${STACK_DEV}",
+                       cf              : "${DEV_CF}",
+                       testEndpoint    : "${TEST_ENDPOINT_KEY}",
+                       awsCredsFile    : "${AWS_CREDS_LOC}",
+                       environment     : "${DEV}"])
+        }
+
+        stage(Constants.Stages.RUNNING_TESTS) {
+            log.info "Running Test"
+            def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
+            dir("${ARTIFACTS_DIR}/tests/${PRODUCT}") {
+                executeTests "${TEST_SCRIPT}"
+            }
+        }
+
+         stage(Constants.Stages.APPROVE_STAGING) {
+            env.IS_APPROVED = false
+            timeout(time:3, unit:'DAYS') {
+                env.IS_APPROVED = input(
+                id: "APPROVE_TO_STAGING",
+                message: "Do you want to proceed to deploy in Staging?",
+                ok: "OK",
+                parameters:[booleanParam(defaultValue:false, name: 'Approve', description: 'Deploy to Staging?')])
+                if (env.IS_APPROVED != 'true') {
+                    currentBuild.result = "ABORTED"
+                    echo "Approval to deploy in staging was Declined."
+                }
+            }
+         }
+
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
             STAGING_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf-staging.yaml"
@@ -132,27 +176,6 @@ node(NODE_MASTER) {
             dir("${ARTIFACTS_DIR}/tests/${PRODUCT}") {
                 executeTests "${TEST_SCRIPT}"
             }
-        }
-
-        stage(Constants.Stages.DEPLOY_DEV) {
-            log.info "Deploying to Development"
-            STAGING_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf-staging.yaml"
-            env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
-                       product         : "${PRODUCT}",
-                       version         : "${VERSION}",
-                       keyPairName     : "${env.KeyPairName}",
-                       certName        : "${env.CertificateName}",
-                       dbUsername      : "${env.DBUsername}",
-                       dbPassword      : "${env.DBPassword}",
-                       dbType          : "${env.DBType}",
-                       amiID           : "${env.IMAGE_ID}",
-                       credID          : "${AWS_CREDS}",
-                       region          : "${env.REGION}",
-                       stackName       : "${STACK_DEV}",
-                       cf              : "${DEV_CF}",
-                       testEndpoint    : "${TEST_ENDPOINT_KEY}",
-                       awsCredsFile    : "${AWS_CREDS_LOC}",
-                       environment     : "${DEV}"])
         }
 
          stage(Constants.Stages.APPROVE_PRODUCTION) {

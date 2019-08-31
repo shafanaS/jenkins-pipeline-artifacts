@@ -57,6 +57,7 @@ Metadata:
           - GITREPOARTIFACTS
           - GITREPOCF
           - GITREPOPUPPET
+          - JenkinsPassword
           - Email
     ParameterLabels:
       AWSAccessKeyId:
@@ -95,6 +96,8 @@ Metadata:
         default: Product Name
       DeploymentPattern:
         default: Product Deployment Pattern
+      JenkinsPassword:
+        default: Jenkins console login Password
       Email:
         default: Email
 Parameters:
@@ -185,6 +188,11 @@ Parameters:
     ConstraintDescription: Mandatory field
   GITREPOPUPPET:
     Type: String
+    AllowedPattern: '.+'
+    ConstraintDescription: Mandatory field
+  JenkinsPassword:
+    Type: String
+    NoEcho: true
     AllowedPattern: '.+'
     ConstraintDescription: Mandatory field
   Email:
@@ -282,6 +290,7 @@ Resources:
 
           export publichostname=$(ec2metadata --public-hostname)
           sed -i "s/VAL/$publichostname/g" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
+          bash /var/lib/jenkins/update_password.sh ${JenkinsPassword} >> /home/jenkins/password.log
           service jenkins start
 
           export jenkinshookurl=http://$publichostname:8080/github-webhook/
@@ -329,14 +338,14 @@ Outputs:
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      wso2ei: ami-0baf234db153deadc
-      wso2is: ami-02daf9089702e42a9
-      wso2am: ami-05145ba4ce225956a
+      wso2ei: ami-02ce6ef730aef53ce
+      wso2is: ami-05fdaa07c0df5f516
+      wso2am: ami-067e343274db0b807
     us-east-2:
-      wso2ei: ami-08430659b68e32d96
-      wso2is: ami-05ca75c1d027b064d
-      wso2am: ami-0c2a1773c6cca1052
+      wso2ei: ami-023536f6b0c10a993
+      wso2is: ami-03564bf8c230f2376
+      wso2am: ami-00ba24c6df7666cd4
     us-west-1:
-      wso2ei: ami-0544afa7884b58966
-      wso2is: ami-084fb27cc6e09852e
-      wso2am: ami-0a5aa7c379505c225
+      wso2ei: ami-047bbf7712294afba
+      wso2is: ami-0e847b8ba5e1a6810
+      wso2am: ami-00616f738643d4046

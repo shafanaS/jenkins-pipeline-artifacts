@@ -27,9 +27,11 @@ node(NODE_MASTER) {
     def DEPLOYMENT_PATTERN = "${env.DEPLOYMENT_PATTERN}"
     def PROD = "prod"
     def STAGING = "staging"
+    def DEV = "dev"
     //Stacks
     def STACK_STAGING = "staging-stack"
     def STACK_PROD = "prod-stack"
+    def STACK_DEV = "dev-stack"
     //Constants
     def WUM_CREDS = 'wum_creds'
     def AWS_CREDS = 'aws_creds'
@@ -51,13 +53,12 @@ node(NODE_MASTER) {
     //Config Files
     def ENV = '/home/jenkins/jenkins_env'
     def PUPPET_CONF = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/puppet/apply-config.sh"
-    def PROD_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${DEPLOYMENT_PATTERN}/cf.yaml"
-    def STAGING_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${DEPLOYMENT_PATTERN}/cf-staging.yaml"
+    def DEV_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/sampleCFN/sample.yaml"
     def PACKER_MANIFEST = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/manifest.json"
     def PACKER_JSON = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer.json"
     def AWS_CREDS_LOC = '/home/ubuntu/.aws/credentials'
     //repos
-    def GIT_REPO_RESOURCES = 'https://github.com/wso2-incubator/jenkins-pipeline-artifacts'
+    def GIT_REPO_RESOURCES = 'https://github.com/shafanaS/jenkins-pipeline-artifacts'
     //mvn remove download logs
     def REMOVE_LOGS = 'org.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
 
@@ -104,6 +105,50 @@ node(NODE_MASTER) {
                                        imageResources   : "${IMAGE_RESOURCES_LOC}"])
         }
 
+        stage(Constants.Stages.DEPLOY_DEV) {
+            log.info "Deploying to Development"
+            DEV_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf-dev.yaml"
+            env.TEST_ENDPOINT = deployAWS([wso2InstanceType: "${env.WSO2InstanceType}",
+                       product         : "${PRODUCT}",
+                       version         : "${VERSION}",
+                       keyPairName     : "${env.KeyPairName}",
+                       certName        : "${env.CertificateName}",
+                       dbUsername      : "${env.DBUsername}",
+                       dbPassword      : "${env.DBPassword}",
+                       dbType          : "${env.DBType}",
+                       amiID           : "${env.IMAGE_ID}",
+                       credID          : "${AWS_CREDS}",
+                       region          : "${env.REGION}",
+                       stackName       : "${STACK_DEV}",
+                       cf              : "${DEV_CF}",
+                       testEndpoint    : "${TEST_ENDPOINT_KEY}",
+                       awsCredsFile    : "${AWS_CREDS_LOC}",
+                       environment     : "${DEV}"])
+        }
+
+        stage(Constants.Stages.RUNNING_TESTS) {
+            log.info "Running Test"
+            def TEST_SCRIPT = "mvn  test -Dendpoint=${TEST_ENDPOINT} -D{$REMOVE_LOGS}"
+            dir("${ARTIFACTS_DIR}/tests/${PRODUCT}") {
+                executeTests "${TEST_SCRIPT}"
+            }
+        }
+
+         stage(Constants.Stages.APPROVE_STAGING) {
+            env.IS_APPROVED = false
+            timeout(time:3, unit:'DAYS') {
+                env.IS_APPROVED = input(
+                id: "APPROVE_TO_STAGING",
+                message: "Do you want to proceed to deploy in Staging?",
+                ok: "OK",
+                parameters:[booleanParam(defaultValue:false, name: 'Approve', description: 'Deploy to Staging?')])
+                if (env.IS_APPROVED != 'true') {
+                    currentBuild.result = "ABORTED"
+                    echo "Approval to deploy in staging was Declined."
+                }
+            }
+         }
+
         stage(Constants.Stages.DEPLOY_STAGING) {
             log.info "Deploying to Staging"
             STAGING_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/${PRODUCT}/${env.DeploymentPattern}/cf-staging.yaml"
@@ -135,7 +180,7 @@ node(NODE_MASTER) {
 
          stage(Constants.Stages.APPROVE_PRODUCTION) {
             env.IS_APPROVED = false
-            timeout(time:10, unit:'MINUTES') {
+            timeout(time:3, unit:'DAYS') {
                 env.IS_APPROVED = input(
                 id: "APPROVE_TO_PRODUCTION",
                 message: "Do you want to proceed to deploy in Production?",

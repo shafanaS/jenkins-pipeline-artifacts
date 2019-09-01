@@ -120,4 +120,4 @@ This pipeline uses the Jenkins shared library. This repository contains the set 
 
 ### How to Configure the Pipeline for another Region
 
-To configure the CICD pipeline for any region: Copy the AMI specified for us-east-1 region (under mappings) in the Jenkins.yaml file to the region you require. Then specify the copied AMI along with the region in the Jenkins.yaml file under mappings.
+To configure the CICD pipeline for any region: Copy the AMI specified for us-east-1 region (under mappings) in the Jenkins.yaml file to the region you require. Then specify the copied AMI along with the region in the Jenkins.yaml file under mappings..

@@ -1,6 +1,4 @@
-# jenkins-pipeline-artifacts
-
-This repository contains resources for WSO2 AWS Pipeline for WSO2 products
+# Resources for WSO2 AWS Pipeline
 
 ### Overview
 

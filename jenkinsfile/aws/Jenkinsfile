@@ -25,9 +25,9 @@ node(NODE_MASTER) {
     def PRODUCT = "${params.PRODUCT}"
     def VERSION = "${params.VERSION}"
     def DEPLOYMENT_PATTERN = "${env.DEPLOYMENT_PATTERN}"
-    def PROD = "prod"
-    def STAGING = "staging"
-    def DEV = "dev"
+    def PROD = "Prod"
+    def STAGING = "Staging"
+    def DEV = "Dev"
     //Stacks
     def STACK_STAGING = "staging-stack"
     def STACK_PROD = "prod-stack"

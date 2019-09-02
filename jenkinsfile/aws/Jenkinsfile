@@ -56,7 +56,7 @@ node(NODE_MASTER) {
     def DEV_CF = "${WORKSPACE}/${DEPLOYMENT_DIR}/sampleCFN/sample.yaml"
     def PACKER_MANIFEST = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/manifest.json"
     def PACKER_JSON = "${WORKSPACE}/${PIPELINE_RESOURCES_DIR}/scripts/packer/packer.json"
-    def AWS_CREDS_LOC = '/home/ubuntu/.aws/credentials'
+    def AWS_CREDS_LOC = '/home/jenkins/.aws/credentials'
     //repos
     def GIT_REPO_RESOURCES = 'https://github.com/wso2-incubator/jenkins-pipeline-artifacts'
     //mvn remove download logs

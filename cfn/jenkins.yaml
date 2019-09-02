@@ -287,7 +287,7 @@ Resources:
           sed -i "s/VALZ/${Email}/g" /home/jenkins/jenkins_env
           sed -i "s/VAL1/${AWSAccessKeyId}/g" /home/jenkins/.aws/credentials
           sed -i "s|VAL2|${AWSAccessKeySecret}|g" /home/jenkins/.aws/credentials
-          sed -i "s/VAL1/${AWS::Region}/g" /home/ubuntu/.aws/config
+          sed -i "s/VAL1/${AWS::Region}/g" /home/jenkins/.aws/config
 
           export publichostname=$(ec2metadata --public-hostname)
           sed -i "s/VAL/$publichostname/g" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml

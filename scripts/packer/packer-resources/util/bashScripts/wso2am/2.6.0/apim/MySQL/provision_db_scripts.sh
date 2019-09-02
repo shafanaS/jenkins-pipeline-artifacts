@@ -31,9 +31,9 @@ for regdbscript in /home/wso2user/dbScripts/MySQL/registry/*.sql
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $regdbscript
  done
 
-for mgtdbscript in /home/wso2user/dbScripts/MySQL/aptmgt/*.sql
+for mgtdbscript in /home/wso2user/dbScripts/MySQL/apmgt/*.sql
   do
-   echo "Executing script: $mgtdbscriptdbscript ..."
+   echo "Executing script: $mgtdbscript ..."
    mysql -u CF_DB_USERNAME -pCF_DB_PASSWORD -h CF_DB_HOST -P CF_DB_PORT < $mgtdbscript
  done
 

@@ -224,11 +224,11 @@ node(NODE_MASTER) {
     } catch (exc) {
         log.err "Caught: ${exc}"
         String recipient = env.Email
-        mail subject: "${env.JOB_NAME} (${env.BUILD_NUMBER}) failed",
-                body: "It appears that ${env.BUILD_URL} is failing, somebody should do something about that",
+        mail subject: "${env.JOB_NAME} (${env.BUILD_NUMBER}) build failed",
+                body: "${env.JOB_NAME} build ${env.BUILD_NUMBER} failed in Jenkins. Check console output at $BUILD_URL to view the results.",
                 to: recipient,
                 replyTo: recipient,
-                from: 'noreply@cicd.wso2'
+                from: 'noreply@wso2cicd.com'
         throw exc
     }
 

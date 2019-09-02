@@ -285,9 +285,9 @@ Resources:
           sed -i "s/VALX/${ProductName}/g" /home/jenkins/jenkins_env
           sed -i "s/VALY/${DeploymentPattern}/g" /home/jenkins/jenkins_env
           sed -i "s/VALZ/${Email}/g" /home/jenkins/jenkins_env
-          sed -i "s/VAL1/${AWSAccessKeyId}/g" /home/jenkins/.aws/credentials
-          sed -i "s|VAL2|${AWSAccessKeySecret}|g" /home/jenkins/.aws/credentials
-          sed -i "s/VAL1/${AWS::Region}/g" /home/jenkins/.aws/config
+          sed -i "s/VAL1/${AWSAccessKeyId}/g" /home/ubuntu/.aws/credentials
+          sed -i "s|VAL2|${AWSAccessKeySecret}|g" /home/ubuntu/.aws/credentials
+          sed -i "s/VAL1/${AWS::Region}/g" /home/ubuntu/.aws/config
 
           export publichostname=$(ec2metadata --public-hostname)
           sed -i "s/VAL/$publichostname/g" /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
@@ -295,7 +295,7 @@ Resources:
 
           export jenkinshookurl=http://$publichostname:8080/github-webhook/
           export githubhookurl=https://api.github.com/repos/${GitHubUsername}/${GitHubHookRepository}/hooks
-          sleep 60
+          sleep 120
           export JENKINS_CRUMB=$(curl -s 'http://admin:admin@localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
           echo $JENKINS_CRUMB >> /home/ubuntu/log.txt
           curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"wum_creds","username":"${WUMUsername}","password": "${WUMPassword}","description": "WUM Credentials","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
@@ -303,7 +303,7 @@ Resources:
           bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl >> /home/ubuntu/text.txt
           bash /var/lib/jenkins/update_password.sh ${JenkinsPassword} >> /home/jenkins/password.log
           service jenkins restart
-          /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource WSO2JenkinsInstance --region ${AWS::Region}
+
   WSO2JenkinsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:

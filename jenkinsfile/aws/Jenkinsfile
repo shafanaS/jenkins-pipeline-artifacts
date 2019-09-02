@@ -36,7 +36,7 @@ node(NODE_MASTER) {
     def WUM_CREDS = 'wum_creds'
     def AWS_CREDS = 'aws_creds'
     //Test Endpoint
-    def TEST_ENDPOINT_KEY = "ESBHttpUrl"
+    def TEST_ENDPOINT_KEY = "HttpUrl"
     //Directories
     def DEPLOYMENT_DIR = "deployment"
     def CONF_HOME_DIR = "configs"

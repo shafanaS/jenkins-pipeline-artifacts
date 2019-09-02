@@ -152,6 +152,7 @@ Parameters:
   GitHubUsername:
     Type: String
     Default: ""
+    Description: Github repository to configure githook (optional)
   GitHubPassword:
     Type: String
     NoEcho: true
@@ -160,7 +161,7 @@ Parameters:
   WUMUsername:
     Type: String
     Default: ""
-    Description: A valid WSO2 subscription to receive updates
+    Description: A valid WSO2 subscription to receive updates (optional)
   WUMPassword:
     Type: String
     NoEcho: true

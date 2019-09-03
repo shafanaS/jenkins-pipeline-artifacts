@@ -172,6 +172,7 @@ Parameters:
   DBPassword:
     Type: String
     NoEcho: true
+    Description: Minimum 8 characters
     AllowedPattern: '.+'
     ConstraintDescription: Mandatory field
   DBType:
@@ -198,7 +199,7 @@ Parameters:
     ConstraintDescription: Mandatory field
   Email:
     Type: String
-    Description: A valid email address to receive notifications on pipeline
+    Description: A valid email address to receive notifications on pipeline (optional)
 Resources:
   # networking configurations
   WSO2JenkinsPublicInternetGateway:
@@ -229,6 +230,10 @@ Resources:
       VpcId: !Ref WSO2JENKINSVPC
   WSO2JenkinsInstance:
     Type: 'AWS::EC2::Instance'
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT20M
     Properties:
       DisableApiTermination: 'false'
       InstanceInitiatedShutdownBehavior: stop
@@ -295,15 +300,16 @@ Resources:
 
           export jenkinshookurl=http://$publichostname:8080/github-webhook/
           export githubhookurl=https://api.github.com/repos/${GitHubUsername}/${GitHubHookRepository}/hooks
-          sleep 120
+          sleep 60
           export JENKINS_CRUMB=$(curl -s 'http://admin:admin@localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
-          echo $JENKINS_CRUMB >> /home/ubuntu/log.txt
-          curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"wum_creds","username":"${WUMUsername}","password": "${WUMPassword}","description": "WUM Credentials","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
-          curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"aws_creds","accessKey":"${AWSAccessKeyId}","secretKey": "${AWSAccessKeySecret}","description": "AWS Credentials","$class": "com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl"}}' -v >> /home/ubuntu/text.txt
-          bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl >> /home/ubuntu/text.txt
+          curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"wum_creds","username":"${WUMUsername}","password": "${WUMPassword}","description": "WUM Credentials","$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"}}' -v >> /home/jenkins/text.txt
+          curl -s -X POST -H $JENKINS_CRUMB 'http://admin:admin@localhost:8080/credentials/store/system/domain/_/createCredentials' --data-urlencode 'json={"": "0","credentials":{"scope":"GLOBAL","id":"aws_creds","accessKey":"${AWSAccessKeyId}","secretKey": "${AWSAccessKeySecret}","description": "AWS Credentials","$class": "com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl"}}' -v >> /home/jenkins/text.txt
+          echo $JENKINS_CRUMB >> /home/jenkins/log.txt
+          bash /home/jenkins/webhook/create_webhook.sh ${GitHubUsername} ${GitHubPassword} $githubhookurl $jenkinshookurl >> /home/jenkins/text.txt
+          sleep 120
           bash /var/lib/jenkins/update_password.sh ${JenkinsPassword} >> /home/jenkins/password.log
           service jenkins restart
-
+          /usr/local/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource WSO2JenkinsInstance --region ${AWS::Region}
   WSO2JenkinsSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -335,19 +341,19 @@ Resources:
         - !GetAZs ''
 Outputs:
   JenkinsManagementConsoleURL:
-    Value: !Sub '${WSO2JenkinsInstance.PublicDnsName}:8080/blue/pipelines'
+    Value: !Sub 'http://${WSO2JenkinsInstance.PublicDnsName}:8080/blue/pipelines'
     Description: Jenkins Management Console URL
 Mappings:
   WSO2UbuntuAMIRegionMap:
     us-east-1:
-      wso2ei: ami-02ce6ef730aef53ce
-      wso2is: ami-05fdaa07c0df5f516
-      wso2am: ami-067e343274db0b807
+      wso2ei: ami-02fbdf7361cd286a9
+      wso2is: ami-0fcb945dec5470b9c
+      wso2am: ami-0372b63b7278f0462
     us-east-2:
-      wso2ei: ami-023536f6b0c10a993
-      wso2is: ami-03564bf8c230f2376
-      wso2am: ami-00ba24c6df7666cd4
+      wso2ei: ami-0cedafb5aa9afb37d
+      wso2is: ami-0463870ab92faf4ba
+      wso2am: ami-0accad36723a8c2f3
     us-west-1:
-      wso2ei: ami-047bbf7712294afba
-      wso2is: ami-0e847b8ba5e1a6810
-      wso2am: ami-00616f738643d4046
+      wso2ei: ami-045cb4a63a79150f4
+      wso2is: ami-034f83793cd2a8ce6
+      wso2am: ami-05f15b0f80820ec00

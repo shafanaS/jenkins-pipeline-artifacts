@@ -67,6 +67,8 @@ FAILED_ARTIFACT_APPLY=17
 FAILED_WUM_INIT=18
 FAILED_DOWNLOAD_PACK=19
 
+echo $WUM_USER
+echo $WUM_PASSWORD
 #Specify deployment directory
 if [ ${PRODUCT} = "wso2ei" ] ; then
     PACK_DIRECTORY="ei"
